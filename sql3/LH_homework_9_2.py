@@ -33,4 +33,5 @@ def sale():
             resale = input('1- Собрать новую корзину\nНазвание корзины- просмотреть содержимое корзины\nстоп - выйти\n')
     print('Have a nice day')
     conn.close()
+    exit()
 sale()
