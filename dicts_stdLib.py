@@ -79,5 +79,3 @@ def search_in(string, dct=dct_Tkr):
         print(*(i.values()), end='\n' + 156 * '-' + '\n')
 
 
-
-search_in('Button')
