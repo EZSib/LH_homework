@@ -1,9 +1,8 @@
 import sqlite3
 import hashlib
 from tkinter import *
-from tkinter import  messagebox as mb
+from tkinter import messagebox as mb
 
-from pip._internal.network import auth
 
 conn = sqlite3.connect('users_new_data.db')
 cur = conn.cursor()

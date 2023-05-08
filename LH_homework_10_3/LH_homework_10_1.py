@@ -3,7 +3,7 @@ import hashlib
 from tkinter import *
 from tkinter import messagebox as mb
 
-conn = sqlite3.connect('test_data.db')
+conn = sqlite3.connect('../test_data.db')
 cur = conn.cursor()
 
 cur.execute('''CREATE TABLE IF NOT EXISTS list_users (

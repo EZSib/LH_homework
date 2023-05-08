@@ -1,9 +1,0 @@
-cur.execute('''CREATE TABLE IF NOT EXISTS questions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    question VARCHAR NOT NULL UNIQUE,
-    a VARCHAR NOT NULL,
-    b VARCHAR NOT NULL,
-    c VARCHAR NOT NULL)''')
-
-
-
