@@ -37,56 +37,56 @@ def auth_window():
         cur.execute('SELECT password FROM list_users WHERE login = ? AND password = ?', [login, password])
         info = cur.fetchall()
         if len(info) > 0:
-            mb.showinfo('Avtorizaciya', 'Dobro pozhalovatb')
-        else: mb.showerror('Avtorizaciya', 'Nevernii parolb')
+            mb.showinfo('Авторизация', 'Добро пожаловать!')
+        else: mb.showerror('Авторизация', 'Неверный пароль')
 
     auth = Toplevel()
     auth.geometry('360x360')
-    auth.title('Avtorizaciya')
+    auth.title('Авторизация')
     auth.resizable(0, 0)
 
-    lbl_main = Label(auth, text='Avtorizaciya', font='calibri 20')
+    lbl_main = Label(auth, text='Авторизация', font='calibri 20')
     lbl_main.place(x=20, y=20)
 
-    lbl_login = Label(auth, text='Login', font='calibri 14')
+    lbl_login = Label(auth, text='Логин', font='calibri 14')
     lbl_login.place(x=20, y=100)
 
     ent_login_auth = Entry(auth, width=14, font='calibri 14')
     ent_login_auth.place(x=80, y=100)
 
-    lbl_pass = Label(auth, text='Parolb', font='14')
+    lbl_pass = Label(auth, text='Пароль', font='14')
     lbl_pass.place(x=20, y=160)
 
     ent_pass_auth = Entry(auth, width=14, font='calibri 14')
     ent_pass_auth.place(x=80, y=160)
 
-    btn_auth = Button(auth, text= 'Voiti', font='calibri 16', command=user_auth)
+    btn_auth = Button(auth, text= 'Войти', font='calibri 16', command=user_auth)
     btn_auth.place(x=20, y=200)
 
 root = Tk()
 root.geometry('360x360')
-root.title('Registaciya')
+root.title('Регистрация')
 root.resizable(0, 0)
 
-lbl_main = Label(text='Registaciya', font='calibri 20')
+lbl_main = Label(text='Регистрация', font='calibri 20')
 lbl_main.place(x=20, y=20)
 
-lbl_login = Label(text='Login', font='calibri 14')
+lbl_login = Label(text='Логин', font='calibri 14')
 lbl_login.place(x=20, y=100)
 
 ent_login = Entry(width=14, font='calibri 14')
 ent_login.place(x=80, y=100)
 
-lbl_pass = Label(text='Pass', font='calibri 14')
-lbl_pass.place(x=20, y=160)
+lbl_pass = Label(text='Пароль', font='calibri 14')
+lbl_pass.place(x=16, y=160)
 
 ent_pass = Entry(width=14, font='calibri 14')
 ent_pass.place(x=80, y=160)
 
-btn_register = Button(text='Zaregitsya', font='calibri 16', command=register)
+btn_register = Button(text='Зарегистрироваться', font='calibri 16', command=register)
 btn_register.place(x=20, y=200)
 
-btn_auth = Button(text='Voiti', font='calibri 16', command=auth_window)
+btn_auth = Button(text='Войти', font='calibri 16', command=auth_window)
 btn_auth.place(x=20, y=270)
 
 root.mainloop()

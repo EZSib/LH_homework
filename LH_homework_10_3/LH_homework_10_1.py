@@ -33,9 +33,10 @@ def auth_window():
         password = pass_sha256(ent_pass_auth.get())
         cur.execute('SELECT id FROM list_users WHERE login = ? AND password = ?', [login, password])
         info = cur.fetchone()
-        info = info[0]
-        if info > 0:
+        user_id = info[0]
+        if user_id > 0:
             mb.showinfo('Авторизация', 'Добро пожаловать')
+
         else:
             mb.showerror('Авторизация', 'Неверный пароль')
 
@@ -61,7 +62,6 @@ def auth_window():
 
     btn_auth = Button(auth, text='Войти', font='calibri 16', command=user_auth)
     btn_auth.place(x=20, y=200)
-
 
 root = Tk()
 root.geometry('400x400')
@@ -90,3 +90,5 @@ btn_auth = Button(text='Войти', font='calibri 16', command=auth_window)
 btn_auth.place(x=20, y=270)
 
 root.mainloop()
+
+
