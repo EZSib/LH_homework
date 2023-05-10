@@ -1,5 +1,6 @@
 import sqlite3
 import hashlib
+import time
 from tkinter import *
 from tkinter import messagebox as mb
 
@@ -64,15 +65,14 @@ def auth_window():
         password = pass_sha256(ent_pass_auth.get())
         cur.execute('SELECT login FROM list_users WHERE login = ? AND password = ?', [login, password])
         info = cur.fetchone()
-        if len(info) > 0:
+        if info:
             global user_id
             user_id = info[0]
             mb.showinfo('Авторизация', 'Добро пожаловать!')
             mb.showinfo('Доступ открыт', 'Доступ к прохождению тестов открыт!')
-
-
+            root.destroy()
         else:
-            mb.showerror('Авторизация', 'Неверный пароль')
+            mb.showerror('Авторизация', 'Неверный логин или пароль')
 
     auth = Toplevel()
     auth.geometry('360x360')
@@ -126,13 +126,53 @@ btn_auth.place(x=20, y=270)
 
 root.mainloop()
 
+def test1(number_q = 1):
+    conn_t1 = sqlite3.connect('questions_new_data.db')
+    cur_t1 = conn_t1.cursor()
+    cur_t1.execute('SELECT COUNT(id) FROM questions')
+    len_id = int(cur_t1.fetchone()[0])
+    test_1 = Toplevel()
+    test_1.geometry('1200x600')
+    test_1.title('Тест1')
+    test_1.resizable(0, 0)
+    cur_t1.execute(f'SELECT question,theme, a, b, c FROM questions WHERE id = {number_q} ')
+    answ_date = cur_t1.fetchall()
+
+
+    def next_q():
+        if number_q < len_id:
+            test1(number_q + 1)
+        else: quit()
+
+
+    q_t1 = Label(test_1, text=f'''Вопрос № {number_q}
+{answ_date[0][0]}''', font='calibri 14')
+    q_t1.place(x=600, y=100, anchor='center')
+    a_t1 = Button(test_1, text=f'{answ_date[0][2]}', bg='red', activebackground='white', font='calibri 12', command=next_q )
+    a_t1.place(x=200, y=600, anchor='s', width=400, height=200)
+    b_t1 = Button(test_1, text=f'{answ_date[0][3]}', bg='green', activebackground='white', font='calibri 12', command=next_q)
+    b_t1.place(x=600, y=600, anchor='s', width=400, height=200)
+    c_t1 = Button(test_1, text=f'{answ_date[0][4]}', bg='blue', activebackground='white', font='calibri 12', command=next_q)
+    c_t1.place(x=1000, y=600, anchor='s', width=390, height=200)
+    test_1.after(10000, lambda: test_1.destroy())
+
+    def new_q():
+        pass
+
+
+
+
 if user_id:
     window = Tk()
     window.title('Тест №1')
     window.geometry('800x600')
-    nickname = Label(text=user_id)
-    open_button = Button(text='Тест 1')
+    nickname = Label(text=f'Пользователь {user_id}', font='calibri 26')
+    nickname.place(x=300, y=300, anchor='center')
+    open_button = Button(text='Тест 1', command=test1)
     open_button.place(x=500, y=500, anchor='se', width=100, height=50)
     open_button1 = Button(text='Тест 2')
     open_button1.place(x=400, y=500, anchor='se', width=100, height=50)
+
+
+
     window.mainloop()
