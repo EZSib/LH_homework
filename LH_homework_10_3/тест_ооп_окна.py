@@ -1,6 +1,5 @@
 import sqlite3
 import hashlib
-import time
 from tkinter import *
 from tkinter import messagebox as mb
 
@@ -126,6 +125,14 @@ btn_auth.place(x=20, y=270)
 
 root.mainloop()
 
+
+def info_after_t1():
+    mb.showinfo('Вы можете улучшить Ваш результат в тесте №1 добавив свой вариант вопроса')
+
+def add_q_t1():
+    pass
+
+score_t1 = 0
 def test1(number_q = 1):
     conn_t1 = sqlite3.connect('questions_new_data.db')
     cur_t1 = conn_t1.cursor()
@@ -142,22 +149,65 @@ def test1(number_q = 1):
     def next_q():
         if number_q < len_id:
             test1(number_q + 1)
-        else: quit()
+        else:
+            mb.showinfo('Тест завершён', f'Ваш результат {score_t1} правильных ответов из {len_id}')
+            result_t1 = Button(text=f'Тест 1 {score_t1}/{len_id}', command=info_after_t1)
+            result_t1.place(x=0, y=0, anchor='nw', width=100, height=50)
+            add_qt1 = Button(text=f'Добавить свой вопрос')
+            add_qt1.place(x=100, y=0, anchor='nw', width=200, height=50)
+    def checking_a():
+        conn_t1_a = sqlite3.connect('answers_new_data.db')
+        cur_t1_a = conn_t1_a.cursor()
+        cur_t1_a.execute(f'SELECT answer FROM answers WHERE  id = ? AND answer = ?', [number_q, 'a'])
+        cheeck = cur_t1_a.fetchone()
+        if cheeck:
+            global score_t1
+            score_t1 += 1
+            test_1.destroy()
+            next_q()
+        else:
+            test_1.destroy()
+            next_q()
+    def checking_b():
+        conn_t1_a = sqlite3.connect('answers_new_data.db')
+        cur_t1_a = conn_t1_a.cursor()
+        cur_t1_a.execute(f'SELECT answer FROM answers WHERE  id = ? AND answer = ?', [number_q, 'b'])
+        cheeck = cur_t1_a.fetchone()
+        if cheeck:
+            global score_t1
+            score_t1 += 1
+            test_1.destroy()
+            next_q()
+        else:
+            test_1.destroy()
+            next_q()
+    def checking_c():
+        conn_t1_a = sqlite3.connect('answers_new_data.db')
+        cur_t1_a = conn_t1_a.cursor()
+        cur_t1_a.execute(f'SELECT answer FROM answers WHERE  id = ? AND answer = ?', [number_q, 'c'])
+        cheeck = cur_t1_a.fetchone()
+        if cheeck:
+            global score_t1
+            score_t1 += 1
+            test_1.destroy()
+            next_q()
+        else:
+            test_1.destroy()
+            next_q()
 
 
     q_t1 = Label(test_1, text=f'''Вопрос № {number_q}
 {answ_date[0][0]}''', font='calibri 14')
     q_t1.place(x=600, y=100, anchor='center')
-    a_t1 = Button(test_1, text=f'{answ_date[0][2]}', bg='red', activebackground='white', font='calibri 12', command=next_q )
+    a_t1 = Button(test_1, text=f'{answ_date[0][2]}', bg='red', activebackground='white', font='calibri 12', command=checking_a)
     a_t1.place(x=200, y=600, anchor='s', width=400, height=200)
-    b_t1 = Button(test_1, text=f'{answ_date[0][3]}', bg='green', activebackground='white', font='calibri 12', command=next_q)
+    b_t1 = Button(test_1, text=f'{answ_date[0][3]}', bg='green', activebackground='white', font='calibri 12', command=checking_b)
     b_t1.place(x=600, y=600, anchor='s', width=400, height=200)
-    c_t1 = Button(test_1, text=f'{answ_date[0][4]}', bg='blue', activebackground='white', font='calibri 12', command=next_q)
+    c_t1 = Button(test_1, text=f'{answ_date[0][4]}', bg='blue', activebackground='white', font='calibri 12', command=checking_c)
     c_t1.place(x=1000, y=600, anchor='s', width=390, height=200)
-    test_1.after(10000, lambda: test_1.destroy())
 
-    def new_q():
-        pass
+
+
 
 
 
