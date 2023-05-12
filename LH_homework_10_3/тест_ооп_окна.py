@@ -359,10 +359,10 @@ def test3(attempts = 2):
 
     def catch_brick():
         global time_catch, list_res_t3, score_t3
-        time_catch = time.time()
+        time_catch = time.perf_counter()
         res_catching = time_catch - time_start
         list_res_t3.append(res_catching)
-        mb.showinfo('Чуть не ушел...', f'Вы справились за {res_catching}')
+        mb.showinfo('Результат охоты', f'Вы справились за {res_catching}')
         if res_catching < 1:
             score_t3 = 5
             mb.showinfo('очень быстро')
@@ -374,6 +374,7 @@ def test3(attempts = 2):
             mb.showinfo('медленно')
         else:
             mb.showinfo('Поздравление', 'Скорее всего вы уже счастливый родитель-)')
+            mb.showerror('В другой раз', 'Колобок-кирпич убежал')
 
         result_t3 = Button(text=f'Тест 3 {score_t3}/5')
         result_t3.place(x=0, y=100, anchor='nw', width=100, height=50)
@@ -396,7 +397,7 @@ def test3(attempts = 2):
         but_brick.destroy()
         time.sleep(randint(2, 11))
         global time_start
-        time_start = time.time()
+        time_start = time.perf_counter()
         but_brick1 = Button(test_3, text='КОЛОБИЧ', bg='#ad3b0a', activebackground='#d94404', font='calibri 10', command=catch_brick)
         but_brick1.place(x=randint(0, 1150), y=randint(0, 750), width=80, height=40)
 
