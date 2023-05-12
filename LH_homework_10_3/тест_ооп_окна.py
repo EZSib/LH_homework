@@ -355,20 +355,51 @@ def test2():
                    command=the_best_choice)
     but_9.place(relx=0.7, rely=0.92, width=70, height=50)
 
-def test3():
+def test3(attempts = 2):
 
     def catch_brick():
-        global time_catch, list_res_t3
+        global time_catch, list_res_t3, score_t3
         time_catch = time.time()
         res_catching = time_catch - time_start
         list_res_t3.append(res_catching)
         mb.showinfo('Чуть не ушел...', f'Вы справились за {res_catching}')
+        if res_catching < 1:
+            score_t3 = 5
+            mb.showinfo('очень быстро')
+        elif 1.5 > res_catching > 1 :
+            score_t3 = 3
+            mb.showinfo('нормально')
+        elif 2 > res_catching > 1.5:
+            score_t3 = 1
+            mb.showinfo('медленно')
+        else:
+            mb.showinfo('Поздравление', 'Скорее всего вы уже счастливый родитель-)')
+
+        result_t3 = Button(text=f'Тест 3 {score_t3}/5')
+        result_t3.place(x=0, y=100, anchor='nw', width=100, height=50)
+
+        best_try = Button(text=f'Лучший результат {round(min(list_res_t3)),3} сек')
+        best_try.place(x=100, y=100, anchor='nw', width=250, height=50)
+
+        test_3.destroy()
+        more_try = mb.askyesno('Улучшить результат', f'Можете поймать беглеца еще быстрее?\n'
+                                                     f'количество попыток: {attempts}')
+        if more_try:
+            if attempts >0:
+                test3(attempts-1)
+            else:
+                mb.showerror('Достаточно', 'Вы использовали все попытки')
+                disable_this(open_button2)
+        else:
+            disable_this(open_button2)
     def start_kiln():
-        time.sleep(randint(2,11))
+        but_brick.destroy()
+        time.sleep(randint(2, 11))
         global time_start
         time_start = time.time()
-        but_brick = Button(test_3, text='КОЛОБИЧ', bg='#ad3b0a', activebackground='#d94404', font='calibri 10', command=catch_brick)
-        but_brick.place(x=randint(0, 1150), y=randint(0,750), width=40, height=70)
+        but_brick1 = Button(test_3, text='КОЛОБИЧ', bg='#ad3b0a', activebackground='#d94404', font='calibri 10', command=catch_brick)
+        but_brick1.place(x=randint(0, 1150), y=randint(0, 750), width=80, height=40)
+
 
     test_3 = Toplevel()
     test_3.geometry('1200x800')
@@ -377,8 +408,8 @@ def test3():
     but_kiln = Button(test_3, text='Включить\nпечку', bg='#bd9482', activebackground='white', font='calibri-bold 40',
                    command=start_kiln)
     but_kiln.place(relx=0.4, rely=0.3, width=400, height=400)
-    but_brick = Button(test_3, text='Мокрая глина', bg='yellow',
-                   activebackground='black', font='calibri 8')
+    but_brick = Button(test_3, text='Мокрая глина', bg='#b8a7a0',
+                   activebackground='black', font='calibri 10')
     but_brick.place(relx=0.4, rely=0.2, width=100, height=50)
 
 
