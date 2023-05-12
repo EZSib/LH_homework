@@ -2,29 +2,8 @@ import sqlite3
 import hashlib
 from tkinter import *
 from tkinter import messagebox as mb
-
-
-# class Window(Tk):
-#     def __init__(self):
-#         super().__init__()
-#
-#         # конфигурация окна
-#         self.title('Новое окно')
-#         self.geometry('250x200')
-#
-#         # определение кнопки
-#         self.button = Button(self, text='закрыть')
-#         self.button['command'] = self.button_clicked
-#         self.button.pack(anchor='center', expand=1)
-#
-#     def button_clicked(self):
-#         self.destroy()
-
-
-
-
-
-
+import time
+from random import *
 conn = sqlite3.connect('users_new_data.db')
 cur = conn.cursor()
 
@@ -34,6 +13,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS list_users (
     password VARCHAR(64) NOT NULL)''')
 
 user_id = None
+
 
 def pass_sha256(user_pass):
     salt = 'hold_the_door'
@@ -54,7 +34,7 @@ def register():
 
     except sqlite3.IntegrityError:
         mb.showerror('Ошибка ввода', 'Имя пользователя занято, выберите другое')
-    except Exception :
+    except Exception:
         mb.showerror('Ошибка ввода', 'Поля должны быть заполнены')
 
 
@@ -131,8 +111,13 @@ len_id = int(cur_t1.fetchone()[0])
 score_t1 = 0
 score_t2 = 0
 score_t3 = 0
+list_res_t3 = []
+def disable_this(button):
+    button.configure(state=DISABLED)
 def info_after_t1():
-    mb.showinfo('Информация о кнопке справа', 'Вы можете улучшить Ваш результат в тесте №1 добавив свой вариант вопроса')
+    mb.showinfo('Информация о кнопке справа',
+                'Вы можете улучшить Ваш результат в тесте №1 добавив свой вариант вопроса')
+
 
 def add_q_t1():
     conn_t1_add_q = sqlite3.connect('questions_new_data.db')
@@ -165,11 +150,11 @@ def add_q_t1():
     ent_add_answ_c = Entry(add_question_t1, width=43, font='calibri 12')
     ent_add_answ_c.place(x=0, y=350)
 
-    lbl_add_answ_true = Label(add_question_t1, text='Правильный вариант ответа\n (маленькая латинская буква a b или c)', font='calibri 16')
+    lbl_add_answ_true = Label(add_question_t1, text='Правильный вариант ответа\n (маленькая латинская буква a b или c)',
+                              font='calibri 16')
     lbl_add_answ_true.place(x=500, y=150)
     ent_add_answ_true = Entry(add_question_t1, width=1, font='calibri 60')
     ent_add_answ_true.place(x=600, y=300)
-
 
     def check_fields():
         all_words_fields = [ent_add_q.get().strip(), ent_add_answ_a.get().strip(), ent_add_answ_b.get().strip(),
@@ -179,7 +164,8 @@ def add_q_t1():
                 if all(map(lambda x: len(str(x)) > 0, all_words_fields)):
                     if ent_add_answ_true.get() in 'abc':
                         cur_t1_add_q.execute('INSERT INTO questions (question,theme, a, b, c) VALUES (?, ?, ?, ?, ?)',
-                                     [all_words_fields[0], 'custom', all_words_fields[1], all_words_fields[2], all_words_fields[3]])
+                                             [all_words_fields[0], 'custom', all_words_fields[1], all_words_fields[2],
+                                              all_words_fields[3]])
                         conn_t1_add_q.commit()
                         cur_t1_add_a.execute('INSERT INTO answers (answer) VALUES (?)', [all_words_fields[4]])
                         conn_t1_add_a.commit()
@@ -201,16 +187,18 @@ def add_q_t1():
                     raise TypeError
             except ValueError:
                 mb.showerror('Ошибка ответа',
-                            'Выберите в качестве ответа маленькую латинскую букву a, b или c')
+                             'Выберите в качестве ответа маленькую латинскую букву a, b или c')
                 break
             except TypeError:
                 mb.showerror('Ошибка ввода',
-                            'Все поля должны быть заполнены')
+                             'Все поля должны быть заполнены')
                 break
+
     button_check = Button(add_question_t1, text=f'Проверить поля', command=check_fields)
     button_check.place(x=600, y=600, anchor='s', width=400, height=200)
 
-def test1(number_q = 1):
+
+def test1(number_q=1):
     conn_t1 = sqlite3.connect('questions_new_data.db')
     cur_t1 = conn_t1.cursor()
     cur_t1.execute('SELECT COUNT(id) FROM questions')
@@ -222,7 +210,6 @@ def test1(number_q = 1):
     cur_t1.execute(f'SELECT question,theme, a, b, c FROM questions WHERE id = {number_q} ')
     answ_date = cur_t1.fetchall()
 
-
     def next_q():
         if number_q < len_id:
             test1(number_q + 1)
@@ -232,6 +219,7 @@ def test1(number_q = 1):
             result_t1.place(x=0, y=0, anchor='nw', width=100, height=50)
             add_qt1 = Button(text=f'Добавить свой вопрос', command=add_q_t1)
             add_qt1.place(x=100, y=0, anchor='nw', width=200, height=50)
+
     def checking_a():
         conn_t1_a = sqlite3.connect('answers_new_data.db')
         cur_t1_a = conn_t1_a.cursor()
@@ -245,6 +233,7 @@ def test1(number_q = 1):
         else:
             test_1.destroy()
             next_q()
+
     def checking_b():
         conn_t1_a = sqlite3.connect('answers_new_data.db')
         cur_t1_a = conn_t1_a.cursor()
@@ -258,6 +247,7 @@ def test1(number_q = 1):
         else:
             test_1.destroy()
             next_q()
+
     def checking_c():
         conn_t1_a = sqlite3.connect('answers_new_data.db')
         cur_t1_a = conn_t1_a.cursor()
@@ -272,43 +262,124 @@ def test1(number_q = 1):
             test_1.destroy()
             next_q()
 
-
     q_t1 = Label(test_1, text=f'''Вопрос № {number_q}
 {answ_date[0][0]}''', font='calibri 14')
     q_t1.place(x=600, y=100, anchor='center')
-    a_t1 = Button(test_1, text=f'{answ_date[0][2]}', bg='red', activebackground='white', font='calibri 12', command=checking_a)
+    a_t1 = Button(test_1, text=f'{answ_date[0][2]}', bg='red', activebackground='white', font='calibri 12',
+                  command=checking_a)
     a_t1.place(x=200, y=600, anchor='s', width=400, height=200)
-    b_t1 = Button(test_1, text=f'{answ_date[0][3]}', bg='green', activebackground='white', font='calibri 12', command=checking_b)
+    b_t1 = Button(test_1, text=f'{answ_date[0][3]}', bg='green', activebackground='white', font='calibri 12',
+                  command=checking_b)
     b_t1.place(x=600, y=600, anchor='s', width=400, height=200)
-    c_t1 = Button(test_1, text=f'{answ_date[0][4]}', bg='blue', activebackground='white', font='calibri 12', command=checking_c)
+    c_t1 = Button(test_1, text=f'{answ_date[0][4]}', bg='blue', activebackground='white', font='calibri 12',
+                  command=checking_c)
     c_t1.place(x=1000, y=600, anchor='s', width=390, height=200)
 
+
 def test2():
+    mb.showinfo('Включите воображение', 'Представим, что вы отправились за священным граалем\nВсех джунов - '
+                                        'придумайте сами, что это -\nВас просили включить воображение.'
+                                        '\nВы долго искали и попали в священную пещеру,\nПосередине которой стоит алтарь.'
+                                        '\nНа алтаре лежат предметы с интересными свойствами.\n\nКакой вы выберете?')
+    def info_after_t2():
+        mb.showinfo('Результат', 'Вашей аскезы')
+    def very_bad_choice():
+        mb.showinfo('Плохой выбор - тоже выбор...', 'Ваш выбор привел к полному затоплению священной пещеры\n'
+                                                    'содержимым ближайшей сточной ямы')
+        mb.showinfo('Итог', '0 баллов заслуженный результат.')
+        result_t2 = Button(text=f'Тест 2 0/5', command=info_after_t2)
+        result_t2.place(x=0, y=50, anchor='nw', width=100, height=50)
+        disable_this(open_button1)
+        test_2.destroy()
+    def bad_choice():
+        mb.showinfo('Плохой выбор - тоже выбор...', 'Небеса разверзлись и поразили вас в самое сердце.\n'
+                                                    'Но перед бесславной кончиной вы успели получить...')
+        mb.showinfo('Итог', '1 балл заслуженный результат.')
+        result_t2 = Button(text=f'Тест 2 1/5', command=info_after_t2)
+        result_t2.place(x=0, y=50, anchor='nw', width=100, height=50)
+        global score_t2
+        score_t2 += 1
+        disable_this(open_button1)
+        test_2.destroy()
+
+
+    def good_choice():
+        mb.showinfo('Интересный выбор', 'Вы на верном пути духовного просветления')
+        mb.showinfo('Итог', '3 балла заслуженный результат.')
+        result_t2 = Button(text=f'Тест 2 3/5', command=info_after_t2)
+        result_t2.place(x=0, y=50, anchor='nw', width=100, height=50)
+        global score_t2
+        score_t2 += 3
+        disable_this(open_button1)
+        test_2.destroy()
+
+    def the_best_choice():
+        mb.showinfo('В точку!', 'Снимаю шляпу и отдаю вам свой кнут, вы разгадали головоломку.')
+        mb.showinfo('Итог', '5 - баллов лучший результат.')
+        result_t2 = Button(text=f'Тест 2 5/5', command=info_after_t2)
+        result_t2.place(x=0, y=50, anchor='nw', width=100, height=50)
+        global score_t2
+        score_t2 += 5
+        disable_this(open_button1)
+        test_2.destroy()
+
+
     test_2 = Toplevel()
     test_2.geometry('1200x800')
     test_2.title('Тест2')
     test_2.resizable(0, 0)
-    but_1 = Button(test_2, text='БАБЛОО!', bg='red', activebackground='black', font='calibri-bold 30')
-    but_1.place(relx=0.4, rely=0.3, width=300, height=300 )
+    but_1 = Button(test_2, text='БАБЛОО!', bg='red', activebackground='black', font='calibri-bold 30', command=very_bad_choice)
+    but_1.place(relx=0.4, rely=0.3, width=300, height=300)
     but_2 = Button(test_2, text='Бугатти\n 100-метровая яхта\nквартира\nпрочие блага', bg='yellow',
-                   activebackground='black', font='calibri 14')
+                   activebackground='black', font='calibri 14', command=bad_choice)
     but_2.place(relx=0.0, rely=0.0, width=250, height=250)
-    but_3 = Button(test_2, text='Здоровье\nBечная жизнь', bg='green', activebackground='black', font='calibri 24')
+    but_3 = Button(test_2, text='Здоровье\nBечная жизнь', bg='green', activebackground='black', font='calibri 24',
+                   command=bad_choice)
     but_3.place(relx=0.8, rely=0.0, width=250, height=250)
-    but_4 = Button(test_2, text='Суперспособность\nна выбор', bg='#03ffff', activebackground='black', font='calibri 20')
+    but_4 = Button(test_2, text='Суперспособность\nна выбор', bg='#03ffff', activebackground='black', font='calibri 20',
+                   command=bad_choice)
     but_4.place(relx=0.0, rely=0.7, width=250, height=250)
-    but_5 = Button(test_2, text='Всеобщая любовь\n и\nодобрение', bg='#ff03f7', activebackground='black', font='calibri 20')
+    but_5 = Button(test_2, text='Всеобщая любовь\n и\nодобрение', bg='#ff03f7', activebackground='black',
+                   font='calibri 20', command=bad_choice)
     but_5.place(relx=0.8, rely=0.7, width=250, height=250)
-    but_5 = Button(test_2, text='Преисполниться\n в познании', bg='#0c695e', activebackground='#04a1d1',font='calibri 16')
-    but_5.place(relx=0.225, rely=0.2, width=200, height=150)
-    but_6 = Button(test_2, text='Стать черным\nбаламутом', bg='#19078f', activebackground='#04a1d1',font='calibri 16')
-    but_6.place(relx=0.725, rely=0.35, width=200, height=150)
-    but_7 = Button(test_2, text='Отправится в\nЧунга-чангу', bg='#81ad07', activebackground='#04a1d1', font='calibri 16')
-    but_7.place(relx=0.25, rely=0.7, width=200, height=150)
-    but_8 = Button(test_2, text='Простой\nдеревянный\nкубок', bg='#824522', activebackground='white', font='calibri 8')
-    but_8.place(relx=0.7, rely=0.92, width=70, height=50)
+    but_6 = Button(test_2, text='Преисполниться\n в познании', bg='#0c695e', activebackground='#04a1d1',
+                   font='calibri 16', command=good_choice)
+    but_6.place(relx=0.225, rely=0.2, width=200, height=150)
+    but_7 = Button(test_2, text='Стать Черным\nБаламутом', bg='#19078f', activebackground='#04a1d1', font='calibri 16',
+                   command=good_choice)
+    but_7.place(relx=0.725, rely=0.35, width=200, height=150)
+    but_8 = Button(test_2, text='Путешествие в\nЧунга-чангу', bg='#81ad07', activebackground='#04a1d1',
+                   font='calibri 16', command=good_choice)
+    but_8.place(relx=0.25, rely=0.7, width=200, height=150)
+    but_9 = Button(test_2, text='Простой\nдеревянный\nкубок', bg='#824522', activebackground='white', font='calibri 8',
+                   command=the_best_choice)
+    but_9.place(relx=0.7, rely=0.92, width=70, height=50)
 
+def test3():
 
+    def catch_brick():
+        global time_catch, list_res_t3
+        time_catch = time.time()
+        res_catching = time_catch - time_start
+        list_res_t3.append(res_catching)
+        mb.showinfo('Чуть не ушел...', f'Вы справились за {res_catching}')
+    def start_kiln():
+        time.sleep(randint(2,11))
+        global time_start
+        time_start = time.time()
+        but_brick = Button(test_3, text='КОЛОБИЧ', bg='#ad3b0a', activebackground='#d94404', font='calibri 10', command=catch_brick)
+        but_brick.place(x=randint(0, 1150), y=randint(0,750), width=40, height=70)
+
+    test_3 = Toplevel()
+    test_3.geometry('1200x800')
+    test_3.title('Тест3')
+    test_3.resizable(0, 0)
+    but_kiln = Button(test_3, text='Включить\nпечку', bg='#bd9482', activebackground='white', font='calibri-bold 40',
+                   command=start_kiln)
+    but_kiln.place(relx=0.4, rely=0.3, width=400, height=400)
+    but_brick = Button(test_3, text='Мокрая глина', bg='yellow',
+                   activebackground='black', font='calibri 8')
+    but_brick.place(relx=0.4, rely=0.2, width=100, height=50)
 
 
 
@@ -322,7 +393,7 @@ if user_id:
     open_button.place(x=500, y=500, anchor='se', width=100, height=50)
     open_button1 = Button(text='Тест 2', command=test2)
     open_button1.place(x=400, y=500, anchor='se', width=100, height=50)
-
-
+    open_button2 = Button(text='Тест 3', command=test3)
+    open_button2.place(x=300, y=500, anchor='se', width=100, height=50)
 
     window.mainloop()
