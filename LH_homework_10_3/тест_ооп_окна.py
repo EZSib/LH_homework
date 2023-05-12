@@ -283,7 +283,30 @@ def test1(number_q = 1):
     c_t1 = Button(test_1, text=f'{answ_date[0][4]}', bg='blue', activebackground='white', font='calibri 12', command=checking_c)
     c_t1.place(x=1000, y=600, anchor='s', width=390, height=200)
 
-
+def test2():
+    test_2 = Toplevel()
+    test_2.geometry('1200x800')
+    test_2.title('Тест2')
+    test_2.resizable(0, 0)
+    but_1 = Button(test_2, text='БАБЛОО!', bg='red', activebackground='black', font='calibri-bold 30')
+    but_1.place(relx=0.4, rely=0.3, width=300, height=300 )
+    but_2 = Button(test_2, text='Бугатти\n 100-метровая яхта\nквартира\nпрочие блага', bg='yellow',
+                   activebackground='black', font='calibri 14')
+    but_2.place(relx=0.0, rely=0.0, width=250, height=250)
+    but_3 = Button(test_2, text='Здоровье\nBечная жизнь', bg='green', activebackground='black', font='calibri 24')
+    but_3.place(relx=0.8, rely=0.0, width=250, height=250)
+    but_4 = Button(test_2, text='Суперспособность\nна выбор', bg='#03ffff', activebackground='black', font='calibri 20')
+    but_4.place(relx=0.0, rely=0.7, width=250, height=250)
+    but_5 = Button(test_2, text='Всеобщая любовь\n и\nодобрение', bg='#ff03f7', activebackground='black', font='calibri 20')
+    but_5.place(relx=0.8, rely=0.7, width=250, height=250)
+    but_5 = Button(test_2, text='Преисполниться\n в познании', bg='#0c695e', activebackground='#04a1d1',font='calibri 16')
+    but_5.place(relx=0.225, rely=0.2, width=200, height=150)
+    but_6 = Button(test_2, text='Стать черным\nбаламутом', bg='#19078f', activebackground='#04a1d1',font='calibri 16')
+    but_6.place(relx=0.725, rely=0.35, width=200, height=150)
+    but_7 = Button(test_2, text='Отправится в\nЧунга-чангу', bg='#81ad07', activebackground='#04a1d1', font='calibri 16')
+    but_7.place(relx=0.25, rely=0.7, width=200, height=150)
+    but_8 = Button(test_2, text='Простой\nдеревянный\nкубок', bg='#824522', activebackground='white', font='calibri 8')
+    but_8.place(relx=0.7, rely=0.92, width=70, height=50)
 
 
 
@@ -297,7 +320,7 @@ if user_id:
     nickname.place(x=300, y=300, anchor='center')
     open_button = Button(text='Тест 1', command=test1)
     open_button.place(x=500, y=500, anchor='se', width=100, height=50)
-    open_button1 = Button(text='Тест 2')
+    open_button1 = Button(text='Тест 2', command=test2)
     open_button1.place(x=400, y=500, anchor='se', width=100, height=50)
 
 
