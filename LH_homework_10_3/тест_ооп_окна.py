@@ -4,6 +4,9 @@ from tkinter import *
 from tkinter import messagebox as mb
 import time
 from random import *
+from datetime import datetime
+import pandas as pd
+
 conn = sqlite3.connect('users_new_data.db')
 cur = conn.cursor()
 
@@ -45,11 +48,13 @@ def auth_window():
         cur.execute('SELECT login FROM list_users WHERE login = ? AND password = ?', [login, password])
         info = cur.fetchone()
         if info:
-            global user_id
+            global user_id, start_testings
             user_id = info[0]
             mb.showinfo('Авторизация', 'Добро пожаловать!')
             mb.showinfo('Доступ открыт', 'Доступ к прохождению тестов открыт!')
+            start_testings = datetime.now()
             root.destroy()
+            conn.close()
         else:
             mb.showerror('Авторизация', 'Неверный логин или пароль')
 
@@ -107,13 +112,18 @@ root.mainloop()
 conn_t1 = sqlite3.connect('questions_new_data.db')
 cur_t1 = conn_t1.cursor()
 cur_t1.execute('SELECT COUNT(id) FROM questions')
+
 len_id = int(cur_t1.fetchone()[0])
 score_t1 = 0
 score_t2 = 0
 score_t3 = 0
 list_res_t3 = []
+
+
 def disable_this(button):
     button.configure(state=DISABLED)
+
+
 def info_after_t1():
     mb.showinfo('Информация о кнопке справа',
                 'Вы можете улучшить Ваш результат в тесте №1 добавив свой вариант вопроса')
@@ -180,6 +190,8 @@ def add_q_t1():
                             add_question_t1.destroy()
                             add_q_t1()
                         add_question_t1.destroy()
+                        disable_this(add_qt1)
+                        conn_t1.close()
                         break
                     else:
                         raise ValueError
@@ -202,6 +214,8 @@ def test1(number_q=1):
     conn_t1 = sqlite3.connect('questions_new_data.db')
     cur_t1 = conn_t1.cursor()
     cur_t1.execute('SELECT COUNT(id) FROM questions')
+
+    disable_this(open_button)
     len_id = int(cur_t1.fetchone()[0])
     test_1 = Toplevel()
     test_1.geometry('1200x600')
@@ -217,8 +231,11 @@ def test1(number_q=1):
             mb.showinfo('Тест завершён', f'Ваш результат {score_t1} правильных ответов из {len_id}')
             result_t1 = Button(text=f'Тест 1 {score_t1}/{len_id}', command=info_after_t1)
             result_t1.place(x=0, y=0, anchor='nw', width=100, height=50)
+            global add_qt1
             add_qt1 = Button(text=f'Добавить свой вопрос', command=add_q_t1)
             add_qt1.place(x=100, y=0, anchor='nw', width=200, height=50)
+            check_end_tests()
+
 
     def checking_a():
         conn_t1_a = sqlite3.connect('answers_new_data.db')
@@ -276,13 +293,20 @@ def test1(number_q=1):
     c_t1.place(x=1000, y=600, anchor='s', width=390, height=200)
 
 
+def launch():
+    mb.showinfo('Подтверждено', 'Запуск ракеты по вашему приказу произведен!')
+    disable_this(red_button)
+
+
 def test2():
     mb.showinfo('Включите воображение', 'Представим, что вы отправились за священным граалем\nВсех джунов - '
                                         'придумайте сами, что это -\nВас просили включить воображение.'
                                         '\nВы долго искали и попали в священную пещеру,\nПосередине которой стоит алтарь.'
                                         '\nНа алтаре лежат предметы с интересными свойствами.\n\nКакой вы выберете?')
+
     def info_after_t2():
         mb.showinfo('Результат', 'Вашей аскезы')
+
     def very_bad_choice():
         mb.showinfo('Плохой выбор - тоже выбор...', 'Ваш выбор привел к полному затоплению священной пещеры\n'
                                                     'содержимым ближайшей сточной ямы')
@@ -291,6 +315,8 @@ def test2():
         result_t2.place(x=0, y=50, anchor='nw', width=100, height=50)
         disable_this(open_button1)
         test_2.destroy()
+        check_end_tests()
+
     def bad_choice():
         mb.showinfo('Плохой выбор - тоже выбор...', 'Небеса разверзлись и поразили вас в самое сердце.\n'
                                                     'Но перед бесславной кончиной вы успели получить...')
@@ -301,7 +327,7 @@ def test2():
         score_t2 += 1
         disable_this(open_button1)
         test_2.destroy()
-
+        check_end_tests()
 
     def good_choice():
         mb.showinfo('Интересный выбор', 'Вы на верном пути духовного просветления')
@@ -312,6 +338,7 @@ def test2():
         score_t2 += 3
         disable_this(open_button1)
         test_2.destroy()
+        check_end_tests()
 
     def the_best_choice():
         mb.showinfo('В точку!', 'Снимаю шляпу и отдаю вам свой кнут, вы разгадали головоломку.')
@@ -322,13 +349,14 @@ def test2():
         score_t2 += 5
         disable_this(open_button1)
         test_2.destroy()
-
+        check_end_tests()
 
     test_2 = Toplevel()
     test_2.geometry('1200x800')
     test_2.title('Тест2')
     test_2.resizable(0, 0)
-    but_1 = Button(test_2, text='БАБЛОО!', bg='red', activebackground='black', font='calibri-bold 30', command=very_bad_choice)
+    but_1 = Button(test_2, text='БАБЛОО!', bg='red', activebackground='black', font='calibri-bold 30',
+                   command=very_bad_choice)
     but_1.place(relx=0.4, rely=0.3, width=300, height=300)
     but_2 = Button(test_2, text='Бугатти\n 100-метровая яхта\nквартира\nпрочие блага', bg='yellow',
                    activebackground='black', font='calibri 14', command=bad_choice)
@@ -355,7 +383,26 @@ def test2():
                    command=the_best_choice)
     but_9.place(relx=0.7, rely=0.92, width=70, height=50)
 
-def test3(attempts = 2):
+    global red_button
+    red_button = Button(text=f'Красная кнопка', bg='red', command=launch)
+    red_button.place(x=100, y=50, anchor='nw', width=200, height=50)
+
+
+def info_after_test3():
+    mb.showinfo('Результат', 'Брюс Ли гордится Вами.')
+
+
+def info_best_try():
+    mb.showinfo('Задача: нажать все кнопки?', 'А Вы целеустремленный человек.')
+
+
+def test3(attempts=2):
+    mb.showinfo('Проверка скорости реакции', 'Перед вами обыкновенная-волшебная печь\nИ кусок "волшебной-синей" глины\n'
+                                             'Ваша задача:\nИспечь Колобок-кирпич и поймать его\n'
+                                             'До того, как он успеет '
+                                             '"сделать ноги"\nПосле нажатие на печь, ей понадобится\nНекоторое время '
+                                             'на приготовление\nКогда Колобок-кирпич будет готов\n'
+                                             'Нажмите на него - чтобы поймать')
 
     def catch_brick():
         global time_catch, list_res_t3, score_t3
@@ -363,56 +410,83 @@ def test3(attempts = 2):
         res_catching = time_catch - time_start
         list_res_t3.append(res_catching)
         mb.showinfo('Результат охоты', f'Вы справились за {res_catching}')
-        if res_catching < 1:
+        if res_catching < 0.8:
             score_t3 = 5
-            mb.showinfo('очень быстро')
-        elif 1.5 > res_catching > 1 :
+            mb.showinfo('очень быстро', 'Результат пилота F1')
+        elif 1.3 > res_catching > 0.8:
             score_t3 = 3
-            mb.showinfo('нормально')
-        elif 2 > res_catching > 1.5:
+            mb.showinfo('нормально', 'Под пиво - сойдет')
+        elif 2 > res_catching > 1.3:
             score_t3 = 1
-            mb.showinfo('медленно')
+            mb.showinfo('медленно', 'Кто понял жизнь - тот не спешит')
         else:
             mb.showinfo('Поздравление', 'Скорее всего вы уже счастливый родитель-)')
             mb.showerror('В другой раз', 'Колобок-кирпич убежал')
 
-        result_t3 = Button(text=f'Тест 3 {score_t3}/5')
+        result_t3 = Button(text=f'Тест 3 {score_t3}/5', command=info_after_test3)
         result_t3.place(x=0, y=100, anchor='nw', width=100, height=50)
 
-        best_try = Button(text=f'Лучший результат {round(min(list_res_t3)),3} сек')
-        best_try.place(x=100, y=100, anchor='nw', width=250, height=50)
+        best_try = Button(text=f'Лучший результат {round(min(list_res_t3), 3)} сек', command=info_best_try)
+        best_try.place(x=100, y=100, anchor='nw', width=200, height=50)
 
         test_3.destroy()
         more_try = mb.askyesno('Улучшить результат', f'Можете поймать беглеца еще быстрее?\n'
                                                      f'количество попыток: {attempts}')
         if more_try:
-            if attempts >0:
-                test3(attempts-1)
+            if attempts > 0:
+                test3(attempts - 1)
             else:
                 mb.showerror('Достаточно', 'Вы использовали все попытки')
                 disable_this(open_button2)
+                check_end_tests()
         else:
             disable_this(open_button2)
+            check_end_tests()
+
     def start_kiln():
         but_brick.destroy()
         time.sleep(randint(2, 11))
         global time_start
         time_start = time.perf_counter()
-        but_brick1 = Button(test_3, text='КОЛОБИЧ', bg='#ad3b0a', activebackground='#d94404', font='calibri 10', command=catch_brick)
+        but_brick1 = Button(test_3, text='КОЛОБИЧ', bg='#ad3b0a', activebackground='#d94404', font='calibri 10',
+                            command=catch_brick)
         but_brick1.place(x=randint(0, 1150), y=randint(0, 750), width=80, height=40)
-
 
     test_3 = Toplevel()
     test_3.geometry('1200x800')
     test_3.title('Тест3')
     test_3.resizable(0, 0)
     but_kiln = Button(test_3, text='Включить\nпечку', bg='#bd9482', activebackground='white', font='calibri-bold 40',
-                   command=start_kiln)
+                      command=start_kiln)
     but_kiln.place(relx=0.4, rely=0.3, width=400, height=400)
-    but_brick = Button(test_3, text='Мокрая глина', bg='#b8a7a0',
-                   activebackground='black', font='calibri 10')
+    but_brick = Button(test_3, text='Синяя глина', bg='#b8a7a0', activebackground='black', font='calibri 9')
     but_brick.place(relx=0.4, rely=0.2, width=100, height=50)
 
+
+# def stats_try():
+#     con = sqlite3.connect('results_new_data.db')
+#     cur = con.cursor()
+#
+#     end_try = datetime.now()
+#     cur.execute('''CREATE TABLE IF NOT EXISTS results (
+#         id INTEGER PRIMARY KEY AUTOINCREMENT,
+#         login VARCHAR(64) NOT NULL UNIQUE,
+#         overall_result INTEGER NOT NULL,
+#         percent_result INTEGER NOT NULL,
+#         counter_try INTEGER NOT NULL,
+#         date_start VARCHAR(32) NOT NULL,
+#         date_end VARCHAR(32) NOT NULL,
+#         time_test VARCHAR(32) NOT NULL)''')
+#
+#     cur.execute('''INSERT INTO results (login, overall_result, percent_result, counter_try, date_start, date_end,'''))
+    
+    
+
+
+def check_end_tests():
+    if all(map(lambda x: x['state'] == DISABLED, (open_button, open_button1, open_button2))):
+        result = Button(text='Результат', command=stats_try)
+        result.place(x=500, y=550, anchor='se', width=300, height=50)
 
 
 if user_id:
@@ -427,5 +501,7 @@ if user_id:
     open_button1.place(x=400, y=500, anchor='se', width=100, height=50)
     open_button2 = Button(text='Тест 3', command=test3)
     open_button2.place(x=300, y=500, anchor='se', width=100, height=50)
+
+
 
     window.mainloop()
