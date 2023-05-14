@@ -1,7 +1,7 @@
 import sqlite3
 from tkinter import *
 from tkinter import messagebox as mb
-
+import os
 conn1 = sqlite3.connect('questions_new_data.db')
 cur1 = conn1.cursor()
 cur1.execute('''CREATE TABLE IF NOT EXISTS questions (
@@ -11,6 +11,8 @@ cur1.execute('''CREATE TABLE IF NOT EXISTS questions (
     a VARCHAR NOT NULL,
     b VARCHAR NOT NULL,
     c VARCHAR NOT NULL)''')
+
+
 
 
 

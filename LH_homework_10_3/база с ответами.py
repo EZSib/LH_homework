@@ -1,5 +1,6 @@
 import sqlite3
 from tkinter import *
+import os
 conn2 = sqlite3.connect('answers_new_data.db')
 cur2 = conn2.cursor()
 cur2.execute('''CREATE TABLE IF NOT EXISTS answers (
@@ -25,3 +26,6 @@ cur2.execute('INSERT INTO answers (answer) VALUES (?)', ['b'])
 conn2.commit()
 cur2.execute('INSERT INTO answers (answer) VALUES (?)', ['b'])
 conn2.commit()
+
+
+
