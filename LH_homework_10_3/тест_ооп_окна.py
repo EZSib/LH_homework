@@ -168,8 +168,11 @@ def auth_window():
 
             global user_id
             user_id = info[0]
-            mb.showinfo('Авторизация', 'Добро пожаловать!')
-            mb.showinfo('Доступ открыт', 'Доступ к прохождению тестов открыт!')
+            mb.showinfo('Авторизация', 'Добро пожаловать! - Доступ открыт!')
+            mb.showinfo('Куда вы попали?', '''Вы учавствуете в симуляции\n
+            Собеседования в сферу АЙТИ\n
+            Результат получите - после прохождения\n
+            Всех испытаний. Приступайте прямо сейчас!''')
 
             root.destroy()
             conn.close()
@@ -337,7 +340,7 @@ def test1(number_q=1):
     len_id = int(cur_t1.fetchone()[0])
     test_1 = Toplevel()
     test_1.geometry('1200x600')
-    test_1.title('Тест1')
+    test_1.title('Проверка Смекалки')
     test_1.resizable(0, 0)
     cur_t1.execute(f'SELECT question,theme, a, b, c FROM questions WHERE id = {number_q} ')
     answ_date = cur_t1.fetchall()
@@ -471,7 +474,7 @@ def test2():
 
     test_2 = Toplevel()
     test_2.geometry('1200x600')
-    test_2.title('Тест2')
+    test_2.title('Проверка Духовности')
     test_2.resizable(0, 0)
     but_1 = Button(test_2, text='БАБЛОО!', bg='red', activebackground='black', font='calibri-bold 30',
                    command=very_bad_choice)
@@ -572,7 +575,7 @@ def test3(attempts=2):
 
     test_3 = Toplevel()
     test_3.geometry('1200x800')
-    test_3.title('Тест3')
+    test_3.title('Проверка реакции')
     test_3.resizable(0, 0)
     but_kiln = Button(test_3, text='Включить\nпечку', bg='#bd9482', activebackground='white', font='calibri-bold 40',
                       command=start_kiln)
@@ -595,10 +598,21 @@ def stats_try():
                                       str(start_testings)[:-6], str(end_testings)[:-6], time_road])
     con_res.commit()
 
+
     stats_window = Tk()
     stats_window.title("Результаты")
     stats_window.geometry('1200x600')
     stats_window.resizable(0, 0)
+
+    prob_employment = Toplevel()
+    prob_employment.title("ПОЗДРАВЛЯЮ")
+    prob_employment.geometry('1200x600')
+    prob_employment.resizable(0, 0)
+
+    last_lbl = Label(prob_employment, text='Вероятность вашего трудоустройства по результатам теста:', font='calibri 20')
+    last_lbl.place(anchor='center', x=600, y=100)
+    last_lbl = Label(prob_employment, text=percent_res, font='calibri 120')
+    last_lbl.place(anchor='center', x=600, y=300)
 
     def show_leaderboard():
         leaderboard = Toplevel()
