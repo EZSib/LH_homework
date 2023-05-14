@@ -147,7 +147,7 @@ def register():
         conn.commit()
         if len(login) < 1 or password == '4f66d65bc5ce809a4661dada408c2de54533d6b70396513a46a23ecfcea79a06':
             raise Exception
-        mb.showinfo('Регистрация', 'Пользователь ' + login + ' Успешно зарегестрирован!')
+        mb.showinfo('Регистрация', 'Пользователь ' + login + ' Успешно зарегистрирован!')
 
     except sqlite3.IntegrityError:
         mb.showerror('Ошибка ввода', 'Имя пользователя занято, выберите другое')
@@ -169,7 +169,7 @@ def auth_window():
             global user_id
             user_id = info[0]
             mb.showinfo('Авторизация', 'Добро пожаловать! - Доступ открыт!')
-            mb.showinfo('Куда вы попали?', '''Вы учавствуете в симуляции\n
+            mb.showinfo('Куда вы попали?', '''Вы участвуете в симуляции\n
             Собеседования в сферу АЙТИ\n
             Результат получите - после прохождения\n
             Всех испытаний. Приступайте прямо сейчас!''')
@@ -251,6 +251,7 @@ def info_after_t1():
 
 
 def add_q_t1():
+    '''функция добавляющая вопросы пользователя в тест на смекалку'''
     conn_t1_add_q = sqlite3.connect('questions_new_data.db')
     cur_t1_add_q = conn_t1_add_q.cursor()
     conn_t1_add_a = sqlite3.connect('answers_new_data.db')
@@ -288,6 +289,7 @@ def add_q_t1():
     ent_add_answ_true.place(x=600, y=300)
 
     def check_fields():
+        '''функция проверяет наличие ввода вопроса и ответа и добавляет данные в базы'''
         all_words_fields = [ent_add_q.get().strip(), ent_add_answ_a.get().strip(), ent_add_answ_b.get().strip(),
                             ent_add_answ_c.get().strip(), ent_add_answ_true.get()]
         while True:
@@ -305,7 +307,7 @@ def add_q_t1():
                         len_id += 1
                         result_t1 = Button(text=f'Тест 1 {score_t1}/{len_id}', command=info_after_t1)
                         result_t1.place(x=0, y=0, anchor='nw', width=100, height=50)
-                        mb.showinfo('Спасибо', 'Вы будете получать по 1 балу за каждый предоставленный вопрос!')
+                        mb.showinfo('Спасибо', 'Вы будете получать по 1 баллу за каждый предоставленный вопрос!')
                         choice_add = mb.askyesno('Тяжелый выбор', 'Хотите добавить еще вопрос?')
                         if choice_add:
                             add_question_t1.destroy()
@@ -332,6 +334,7 @@ def add_q_t1():
 
 
 def test1(number_q=1):
+    '''тест на смекалку'''
     conn_t1 = sqlite3.connect('questions_new_data.db')
     cur_t1 = conn_t1.cursor()
     cur_t1.execute('SELECT COUNT(id) FROM questions')
@@ -346,6 +349,7 @@ def test1(number_q=1):
     answ_date = cur_t1.fetchall()
 
     def next_q():
+        '''переход на следующий вопрос'''
         if number_q < len_id:
             test1(number_q + 1)
         else:
@@ -420,6 +424,7 @@ def launch():
 
 
 def test2():
+    '''тест на духовность'''
     mb.showinfo('Включите воображение', 'Представим, что вы отправились за священным граалем\nВсех джунов - '
                                         'придумайте сами, что это -\nВас просили включить воображение.'
                                         '\nВы долго искали и попали в священную пещеру,\nПосередине которой стоит алтарь.'
@@ -518,6 +523,7 @@ def info_best_try():
 
 
 def test3(attempts=2):
+    '''тест на реакцию'''
     mb.showinfo('Проверка скорости реакции', 'Перед вами обыкновенная-волшебная печь\nИ кусок "волшебной-синей" глины\n'
                                              'Ваша задача:\nИспечь Колобок-кирпич и поймать его\n'
                                              'До того, как он успеет '
@@ -526,6 +532,7 @@ def test3(attempts=2):
                                              'Нажмите на него - чтобы поймать')
 
     def catch_brick():
+        '''бегуший кирпич'''
         global time_catch, list_res_t3, score_t3
         time_catch = time.perf_counter()
         res_catching = time_catch - time_start
@@ -565,6 +572,7 @@ def test3(attempts=2):
             check_end_tests()
 
     def start_kiln():
+        '''затопить печь'''
         but_brick.destroy()
         time.sleep(randint(2, 11))
         global time_start
@@ -585,6 +593,7 @@ def test3(attempts=2):
 
 
 def stats_try():
+    '''добавление статистики в базу и переход к ее просмотру'''
     window.destroy()
     end_testings = datetime.now()
     score_res = score_t1 + score_t2 + score_t3
