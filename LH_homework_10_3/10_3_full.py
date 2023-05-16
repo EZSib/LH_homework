@@ -612,7 +612,7 @@ def stats_try():
     stats_window.geometry('1200x600')
     stats_window.resizable(0, 0)
 
-    prob_employment = Toplevel()
+    prob_employment = Toplevel(stats_window)
     prob_employment.title("ПОЗДРАВЛЯЮ")
     prob_employment.geometry('1200x600')
     prob_employment.resizable(0, 0)
