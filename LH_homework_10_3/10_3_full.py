@@ -16,8 +16,6 @@ except ImportError:
     import pandas as pd
     from tabulate import tabulate
 
-
-
 conn = sqlite3.connect('users_new_data.db')
 cur = conn.cursor()
 
@@ -40,7 +38,7 @@ cur_res.execute('''CREATE TABLE IF NOT EXISTS results (
                     time_test VARCHAR(64) NOT NULL)''')
 
 if os.path.exists('answers_new_data.db'):
-   pass
+    pass
 else:
     conn2 = sqlite3.connect('answers_new_data.db')
     cur2 = conn2.cursor()
@@ -69,7 +67,7 @@ else:
     conn2.commit()
 
 if os.path.exists('questions_new_data.db'):
-   pass
+    pass
 else:
     conn1 = sqlite3.connect('questions_new_data.db')
     cur1 = conn1.cursor()
@@ -80,6 +78,8 @@ else:
         a VARCHAR NOT NULL,
         b VARCHAR NOT NULL,
         c VARCHAR NOT NULL)''')
+
+
     class Question():
         def __init__(self, core: str, theme: str, a: str, b: str, c: str):
             self.string = core
@@ -607,7 +607,6 @@ def stats_try():
                                       str(start_testings)[:-6], str(end_testings)[:-6], time_road])
     con_res.commit()
 
-
     stats_window = Tk()
     stats_window.title("Результаты")
     stats_window.geometry('1200x600')
@@ -618,7 +617,8 @@ def stats_try():
     prob_employment.geometry('1200x600')
     prob_employment.resizable(0, 0)
 
-    last_lbl = Label(prob_employment, text='Вероятность вашего трудоустройства по результатам теста:', font='calibri 20')
+    last_lbl = Label(prob_employment, text='Вероятность вашего трудоустройства по результатам теста:',
+                     font='calibri 20')
     last_lbl.place(anchor='center', x=600, y=100)
     last_lbl = Label(prob_employment, text=percent_res, font='calibri 120')
     last_lbl.place(anchor='center', x=600, y=300)
@@ -694,7 +694,6 @@ def stats_try():
         open_button2.place(x=300, y=500, anchor='se', width=100, height=50)
         window.mainloop()
 
-
     lead_button = Button(text='Таблица Лучших', font='calibri 20', command=show_leaderboard)
     lead_button.place(anchor='w', x=0, y=100, width=300, height=200)
 
@@ -717,8 +716,6 @@ def check_end_tests():
     if all(map(lambda x: x['state'] == DISABLED, (open_button, open_button1, open_button2))):
         result = Button(text='Результат', command=stats_try)
         result.place(x=500, y=550, anchor='se', width=300, height=50)
-
-
 
 
 if user_id:
