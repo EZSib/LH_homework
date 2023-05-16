@@ -9,34 +9,6 @@ root.title('Ксилофон')
 root.resizable(0, 0)
 
 
-def do_play(event=None):
-    playsound('noty-do.mp3')
-
-
-def re_play(event=None):
-    playsound('re.mp3')
-
-
-def mi_play(event=None):
-    playsound('mi.mp3')
-
-
-def fa_play(event=None):
-    playsound('fa.mp3')
-
-
-def sol_play(event=None):
-    playsound('sol.mp3')
-
-
-def lja_play(event=None):
-    playsound('lja.mp3')
-
-
-def si_play(event=None):
-    playsound('si.mp3')
-
-
 def pik_pik():
     a = 'winsound.Beep(randint(50, 5000), randint(100, 800))'
     for _ in range(20):
@@ -69,25 +41,25 @@ lbl_minor.pack(side=TOP)
 lbl_minor = Label(text='ДО-q       РЕ-w       МИ-e           ФА-r            СОЛЬ-y        СИ-u', font='calibri 24')
 lbl_minor.pack(side=TOP)
 
-btn_do = Button(text='ДО', font='calibri 16', command=do_play, width=9, height=11)
+btn_do = Button(text='ДО', font='calibri 16', command=lambda: playsound('do.mp3'), width=9, height=11)
 btn_do.pack(side=LEFT)
 
-btn_re = Button(text='РЕ', font='calibri 16', command=re_play, width=9, height=11)
+btn_re = Button(text='РЕ', font='calibri 16', command=lambda: playsound('re.mp3'), width=9, height=11)
 btn_re.pack(side=LEFT)
 
-btn_mi = Button(text='МИ', font='calibri 16', command=mi_play, width=9, height=11)
+btn_mi = Button(text='МИ', font='calibri 16', command=lambda: playsound('mi.mp3'), width=9, height=11)
 btn_mi.pack(side=LEFT)
 
-btn_fa = Button(text='ФА', font='calibri 16', command=fa_play, width=9, height=11)
+btn_fa = Button(text='ФА', font='calibri 16', command=lambda: playsound('fa.mp3'), width=9, height=11)
 btn_fa.pack(side=LEFT)
 
-btn_sol = Button(text='СОЛЬ', font='calibri 16', command=sol_play, width=9, height=11)
+btn_sol = Button(text='СОЛЬ', font='calibri 16', command=lambda: playsound('sol.mp3'), width=9, height=11)
 btn_sol.pack(side=LEFT)
 
-btn_lja = Button(text='ЛЯ', font='calibri 16', command=lja_play, width=9, height=11)
+btn_lja = Button(text='ЛЯ', font='calibri 16', command=lambda: playsound('lja.mp3'), width=9, height=11)
 btn_lja.pack(side=LEFT)
 
-btn_si = Button(text='СИ', font='calibri 16', command=si_play, width=10, height=11)
+btn_si = Button(text='СИ', font='calibri 16', command=lambda: playsound('si.mp3'), width=10, height=11)
 btn_si.pack(side=LEFT)
 
 btn_1 = Button(text='БА', font='calibri 16', bg='grey', command=lambda: winsound.Beep(2500, 500))
@@ -108,13 +80,13 @@ good_sound = Button(text='Пьяные грузчики\nПоднимают на
                     command=brother_play)
 good_sound.place(x=730, y=525, width=250, height=75)
 
-root.bind('q', do_play)
-root.bind('w', re_play)
-root.bind('e', mi_play)
-root.bind('r', fa_play)
-root.bind('t', sol_play)
-root.bind('y', lja_play)
-root.bind('u', si_play)
+root.bind('q', lambda event=None: playsound('do.mp3'))
+root.bind('w', lambda event=None: playsound('re.mp3'))
+root.bind('e', lambda event=None: playsound('mi.mp3'))
+root.bind('r', lambda event=None: playsound('fa.mp3'))
+root.bind('t', lambda event=None: playsound('sol.mp3'))
+root.bind('y', lambda event=None: playsound('lja.mp3'))
+root.bind('u', lambda event=None: playsound('si.mp3'))
 
 root.bind('<F1>', info)
 
