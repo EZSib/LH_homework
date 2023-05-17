@@ -2,6 +2,13 @@ from tkinter import *
 from playsound import playsound
 import winsound
 from random import randint
+import os
+
+try:
+    from playsound import playsound
+except ImportError:
+    os.system('pip install playsound')
+    from playsound import playsound
 
 root = Tk()
 root.geometry('960x600')
@@ -24,12 +31,16 @@ def brother_play():
 
 
 def info(event=None):
-    creator_info = Toplevel()
+    creator_info = Toplevel(root)
     creator_info.title('Инфо о создателе')
     creator_info.geometry('960x600')
     creator_info.resizable(0, 0)
     rock_paint = Label(creator_info, text='Я Ксилофониатором командую!\nЕфим', font='calibri 40')
     rock_paint.pack(side=TOP)
+
+def destr(event=None):
+    root.destroy()
+
 
 
 lbl_main = Label(text='На этом можно сыграть, не вызывая грузчиков', font='calibri 28')
@@ -41,7 +52,7 @@ lbl_minor.pack(side=TOP)
 lbl_minor = Label(text='ДО-q       РЕ-w       МИ-e           ФА-r            СОЛЬ-y        СИ-u', font='calibri 24')
 lbl_minor.pack(side=TOP)
 
-btn_do = Button(text='ДО', font='calibri 16', command=lambda: playsound('do.mp3'), width=9, height=11)
+btn_do = Button(text='ДО', font='calibri 16', command=lambda: playsound('noty-do.mp3'), width=9, height=11)
 btn_do.pack(side=LEFT)
 
 btn_re = Button(text='РЕ', font='calibri 16', command=lambda: playsound('re.mp3'), width=9, height=11)
@@ -80,7 +91,7 @@ good_sound = Button(text='Пьяные грузчики\nПоднимают на
                     command=brother_play)
 good_sound.place(x=730, y=525, width=250, height=75)
 
-root.bind('q', lambda event=None: playsound('do.mp3'))
+root.bind('q', lambda event=None: playsound('noty-do.mp3'))
 root.bind('w', lambda event=None: playsound('re.mp3'))
 root.bind('e', lambda event=None: playsound('mi.mp3'))
 root.bind('r', lambda event=None: playsound('fa.mp3'))
@@ -89,5 +100,6 @@ root.bind('y', lambda event=None: playsound('lja.mp3'))
 root.bind('u', lambda event=None: playsound('si.mp3'))
 
 root.bind('<F1>', info)
+root.bind('<Escape>', destr)
 
 root.mainloop()
