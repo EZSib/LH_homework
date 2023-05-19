@@ -31,18 +31,6 @@ def next_rave():
     for _ in range(alpha):
         result_iter_galery = next(forward)
 
-    def resizeImage(img, newWidth, newHeight):
-        old_width = img.width()
-        old_height = img.height()
-        new_photo_image = PhotoImage(width=newWidth, height=newHeight)
-        for x in range(newWidth):
-            for y in range(newHeight):
-                xOld = int(x * old_width / newWidth)
-                yOld = int(y * old_height / newHeight)
-                rgb = '#%02x%02x%02x' % img.get(xOld, yOld)
-                new_photo_image.put(rgb, (x, y))
-        return new_photo_image
-
     def end_see():
         root.destroy()
 
@@ -77,18 +65,6 @@ def prev_rave():
     result_iter_galery = next(forward)
     for _ in range(alpha):
         result_iter_galery = next(forward)
-
-    def resizeImage(img, newWidth, newHeight):
-        old_width = img.width()
-        old_height = img.height()
-        new_photo_image = PhotoImage(width=newWidth, height=newHeight)
-        for x in range(newWidth):
-            for y in range(newHeight):
-                xOld = int(x * old_width / newWidth)
-                yOld = int(y * old_height / newHeight)
-                rgb = '#%02x%02x%02x' % img.get(xOld, yOld)
-                new_photo_image.put(rgb, (x, y))
-        return new_photo_image
 
     def end_see():
         root.destroy()
