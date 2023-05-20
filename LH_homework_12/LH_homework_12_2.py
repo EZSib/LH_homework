@@ -17,12 +17,14 @@ root.resizable(0, 0)
 
 
 def pik_pik():
+    '''Воспроизведение 20 случайных звуков в промежутке от 50Гц до 5000Гц случайной продолжительностью 0.1-0.8 сек.'''
     a = 'winsound.Beep(randint(50, 5000), randint(100, 800))'
     for _ in range(20):
         eval(a)
 
 
 def brother_play():
+    '''Воспроизведение 15 нот в случайном порядке'''
     smpl_dct = {1: "playsound('noty-do.mp3')", 2: "playsound('re.mp3')", 3: "playsound('mi.mp3')",
                 4: "playsound('fa.mp3')",
                 5: "playsound('sol.mp3')", 6: "playsound('lja.mp3')", 7: "playsound('si.mp3')"}
