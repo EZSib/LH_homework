@@ -18,9 +18,8 @@ root.resizable(0, 0)
 
 def pik_pik():
     '''Воспроизведение 20 случайных звуков в промежутке от 50Гц до 5000Гц случайной продолжительностью 0.1-0.8 сек.'''
-    a = 'winsound.Beep(randint(50, 5000), randint(100, 800))'
     for _ in range(20):
-        eval(a)
+        winsound.Beep(randint(50, 5000), randint(100, 800))
 
 
 def brother_play():
