@@ -49,7 +49,7 @@ lbl_main.pack(side=TOP)
 lbl_minor = Label(text='Справка создателя F1', font='calibri 12')
 lbl_minor.pack(side=TOP)
 
-lbl_minor = Label(text='ДО-q       РЕ-w       МИ-e           ФА-r            СОЛЬ-y        СИ-u', font='calibri 24')
+lbl_minor = Label(text='ДО-q     РЕ-w     МИ-e      ФА-r       СОЛЬ-t    ЛЯ -y      СИ-u', font='calibri 24')
 lbl_minor.pack(side=TOP)
 
 btn_do = Button(text='ДО', font='calibri 16', command=lambda: playsound('noty-do.mp3'), width=9, height=11)
