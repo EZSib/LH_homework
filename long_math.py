@@ -1,8 +1,8 @@
 from collections import deque as dq
 import time
 
-a = [9,9,9] * 3
-b = [9,9,9] * 3
+a = [3,3,3] * 100000
+b = [2,2,2] * 10000
 coef_gen = ''
 def func1(l1, l2):
   def plus1(prv):
@@ -52,5 +52,5 @@ def func1(l1, l2):
       fin.appendleft(1)
   print(f'Время выполнения{time.time() - start_time}')
   return fin
-print((func1(a, b)))
+# print(int(str(func1(a, b)).replace(',','').replace(' ', '')[7:-2]))
 
