@@ -56,6 +56,7 @@ def vict(select_data, answers):
             score += answers.get(float(input(question)), False)
         count_q += 1
         time.sleep(0.5)
+    name = input('Введите ваше имя: \n')
     print(f'Результаты ваших трудов {score} из 3')
     rerun = int(input('Еще партейку?\n1- ДА\n2- нет\n'))
     if rerun == 1:
@@ -68,3 +69,5 @@ try:
 except:
     print('Используйте только цифры!')
     run()
+
+
