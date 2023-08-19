@@ -1,33 +1,7 @@
-'''1. Напишите две функции создания списка из четных чисел от 0 до N (N – аргумент функции):
-[0, 2, 4, …, N] с помощью метода append и с помощью инструмента list comprehensions (генератор списков).
- Через декоратор определите время работы этих функций.
-2. Вернитесь к задаче "Викторина" из первого урока . Через декоратор запишите информацию в базу данных.'''
-
-# '====================================================================================================================='
-from datetime import datetime
+'''2. Вернитесь к задаче "Викторина" из первого урока . Через декоратор запишите информацию в базу данных'''
 import sqlite3
 import time
 
-def time_dec(func):
-    def action(x):
-        now = datetime.now()
-        func(x)
-        return  datetime.now() - now
-    return action
-@time_dec
-def func_even_append(n):
-    list_even = []
-    for i in range(0, n):
-        if i % 2 ==0:
-            list_even.append(i)
-    return list_even
-@time_dec
-def func_even_comprehensions(n):
-    return [i for i in range(0, n) if i % 2 ==0]
-
-print(func_even_append(1000000))
-print(func_even_comprehensions(1000000))
-# '====================================================================================================================='
 
 def sql3_insert(func):
     def action():
@@ -47,6 +21,7 @@ def sql3_insert(func):
             func()
         else:
             teleprint('cluck-cluck ' * 20)
+
     return action
 
 
@@ -83,6 +58,7 @@ def run():
     choice = int(input())
     vict(('', data_math, data_mem, data_beasts)[choice], ('', d_math_a, d_mem_a, d_beasts_a)[choice])
 
+
 def teleprint(*args, delay=0.05, str_join=' '):
     '''Вывод с задержкой, псевдодекоратор'''
     text = str_join.join(str(x) for x in args)
@@ -92,6 +68,7 @@ def teleprint(*args, delay=0.05, str_join=' '):
             char = f'{char}\n'
         print(char, end='')
         time.sleep(delay)
+
 
 def vict(select_data, answers):
     '''Перебираем вопросы, начисляем очки за правильные ответы'''
@@ -110,14 +87,10 @@ def vict(select_data, answers):
     name = input('Введите ваше имя: \n')
     print(f'Результаты ваших трудов {score} из 3')
 
+
 try:
     run()
 except Exception as exp:
     print(exp)
-    print('Используйте только цифры!')
+    print('Используйте только цифры: 1,2,3! ')
     run()
-# ==================================================================================================================
-
-
-
-
