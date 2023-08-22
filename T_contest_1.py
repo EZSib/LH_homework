@@ -28,7 +28,24 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 
 '''задача с лестницами '''
 
-quantity_leave, levels, first_leave = (list(map(int, (input().split()))) for _ in range(3))
-first_leave_lvl = levels[first_leave[0]-1]
-if quantity_leave[1] >= sum((levels[:first_leave[0]-1])):
-    print(levels[-1]-levels[0])
+# quantity_leave, levels, first_leave = (list(map(int, (input().split()))) for _ in range(3))
+#
+# first_leave_lvl = levels[first_leave[0]-1]
+#
+# if quantity_leave[1] >= (first_leave_lvl - levels[0] or levels[-1] - first_leave_lvl) or first_leave[0] == 1 or first_leave[0] == len(levels):
+#     print(levels[-1]-levels[0])
+# else:
+#     print(min([first_leave_lvl - levels[0] + levels[-1] - 1, levels[-1] - first_leave_lvl  + (levels[-1]-levels[0])]))
+
+'''Задача с листочком на котором написаны числа, их надо переписать чтоб получить большую сумму'''
+
+n, k = map(int, (input().split()))
+list_n = list(map(int, (input().split())))
+list_n_str = list(map(str,list_n))
+sum_staart = sum(list_n)
+
+if k >= n:
+
+print(n,k,list_n,sum_staart)
+print(list_n_str)
+print(min('987','986'))
