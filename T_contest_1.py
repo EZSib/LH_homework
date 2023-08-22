@@ -1,5 +1,5 @@
 import math
-
+from random import shuffle
 # print(len([i for i in list(range(100,1000)) if (int(str(i)[0]))+int(str(i)[1])+int(str(i)[2]) == i/19]))
 # print(8*math.sqrt(7))
 '''Вводится 4 целых положительных числа ABCD(1≤A,B,C,D≤100)
@@ -43,9 +43,13 @@ n, k = map(int, (input().split()))
 list_n = list(map(int, (input().split())))
 list_n_str = list(map(str,list_n))
 sum_staart = sum(list_n)
-
+total = 0
 if k >= n:
-
-print(n,k,list_n,sum_staart)
-print(list_n_str)
-print(min('987','986'))
+    print(sum(map(int, (map(lambda x: '9' * len(x), list_n_str)))) - sum_staart)
+else:
+    while k>0:
+        th_rd = list(filter(lambda x: len(x)==3), list_n_str)
+# print(n,k,list_n,sum_staart)
+# print(list_n_str)
+# print(min('987','986'))
+print(sorted(['12','9','111', '1000']))
