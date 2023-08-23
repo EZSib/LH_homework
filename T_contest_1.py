@@ -39,17 +39,45 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 
 '''Задача с листочком на котором написаны числа, их надо переписать чтоб получить большую сумму'''
 
-n, k = map(int, (input().split()))
-list_n = list(map(int, (input().split())))
-list_n_str = list(map(str,list_n))
-sum_staart = sum(list_n)
-total = 0
-if k >= n:
-    print(sum(map(int, (map(lambda x: '9' * len(x), list_n_str)))) - sum_staart)
-else:
-    while k>0:
-        th_rd = list(filter(lambda x: len(x)==3), list_n_str)
-# print(n,k,list_n,sum_staart)
-# print(list_n_str)
-# print(min('987','986'))
-print(sorted(['12','9','111', '1000']))
+# n, k = map(int, (input().split()))
+# list_n = list(map(int, (input().split())))
+# list_n_str = list(map(str,list_n))
+# sum_staart = sum(list_n)
+# total = 0
+# not_9 = abs([i for i in list_n_str if i.isdigit()].count('9')-len([i for i in list_n_str if i.isdigit()]))
+# rep = 0
+# if k >= n:
+#     print(sum(map(int, (map(lambda x: '9' * len(x), list_n_str)))) - sum_staart)
+# else:
+#     three = sorted(list(filter(lambda x: len(x)==3, list_n_str)))
+#     sec_three = list(map(lambda x: str(x)[1:], three))
+#     twoo =  sorted(list(filter(lambda x: len(x)==2, list_n_str)) + sec_three)
+#     sec_two = list(map(lambda x: str(x)[1:], twoo))
+#     onee =  sorted(list(filter(lambda x: len(x)==1, list_n_str)) + sec_two)
+#     while k>0 or rep == not_9 or any(three + twoo + onee) == False:
+#         if three:
+#             if int(three[0][0]) != 9:
+#                 total += (9 - int(three[0][0])) *100
+#                 k -=1
+#                 rep +=1
+#                 del three[0]
+#             else:
+#                 three.clear()
+#         elif twoo:
+#             if int(twoo[0][0]) != 9:
+#                 total += (9 - int(twoo[0][0])) *10
+#                 k -=1
+#                 rep +=1
+#                 del twoo[0]
+#             else:
+#                 twoo.clear()
+#         elif onee:
+#             if int(onee[0]) != 9:
+#                 total += (9 - int(onee[0]))
+#                 k -=1
+#                 rep +=1
+#                 del onee[0]
+#             else:
+#                 onee.clear()
+#         else: print(total)
+
