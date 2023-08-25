@@ -47,17 +47,17 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 # not_9 = abs([i for i in list_n_str if i.isdigit()].count('9')-len([i for i in list_n_str if i.isdigit()]))
 # rep = 0
 # if k >= n:
-#     print(sum(map(int, (map(lambda x: '9' * len(x), list_n_str)))) - sum_staart)
+#     total = sum(map(int, (map(lambda x: '9' * len(x), list_n_str)))) - sum_staart
 # else:
 #     three = sorted(list(filter(lambda x: len(x)==3, list_n_str)))
 #     sec_three = list(map(lambda x: str(x)[1:], three))
 #     twoo =  sorted(list(filter(lambda x: len(x)==2, list_n_str)) + sec_three)
 #     sec_two = list(map(lambda x: str(x)[1:], twoo))
 #     onee =  sorted(list(filter(lambda x: len(x)==1, list_n_str)) + sec_two)
-#     while k>0 or rep == not_9 or any(three + twoo + onee) == False:
+#     while k > 0 or rep == not_9 or any(three + twoo + onee) == False:
 #         if three:
 #             if int(three[0][0]) != 9:
-#                 total += (9 - int(three[0][0])) *100
+#                 total += (9 - int(three[0][0])) * 100
 #                 k -=1
 #                 rep +=1
 #                 del three[0]
@@ -65,7 +65,7 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 #                 three.clear()
 #         elif twoo:
 #             if int(twoo[0][0]) != 9:
-#                 total += (9 - int(twoo[0][0])) *10
+#                 total += (9 - int(twoo[0][0])) * 10
 #                 k -=1
 #                 rep +=1
 #                 del twoo[0]
@@ -79,5 +79,24 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 #                 del onee[0]
 #             else:
 #                 onee.clear()
-#         else: print(total)
+# print(total)
+
+'''задача где надо найти все числа с одинаковыми цифрами в промежутке'''
+# a, b = map(int, (input().split()))
+# cnt = 0
+#
+# for i in range(a,b+1):
+#     if str(i).count(str(i)[0]) == len(str(i)):
+#         cnt+=1
+
+n = int(input())
+rank = list(map(int, input().split()))
+result = '-1-1'
+odd = list(map(lambda x: x % 2 ==1, rank))
+even = list(map(lambda x: x % 2 ==0, rank))
+if sum(odd) < sum(even)   or  (all(odd[::2]) and all(even[1::2])) or \
+        (''.join(list(map(int, odd))).count('00') > 1 or ''.join(list(map(int, odd))).count('11') > 1):
+    print(result)
+else:
+    swap =
 
