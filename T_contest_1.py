@@ -89,14 +89,58 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 #     if str(i).count(str(i)[0]) == len(str(i)):
 #         cnt+=1
 
-n = int(input())
-rank = list(map(int, input().split()))
-result = '-1-1'
-odd = list(map(lambda x: x % 2 ==1, rank))
-even = list(map(lambda x: x % 2 ==0, rank))
-if sum(odd) < sum(even)   or  (all(odd[::2]) and all(even[1::2])) or \
-        (''.join(list(map(int, odd))).count('00') > 1 or ''.join(list(map(int, odd))).count('11') > 1):
-    print(result)
-else:
-    swap =
+'''задача с перестановкой цифр'''
+# n = int(input())
+# rank = list(map(int, input().split()))
+# result = -1,-1
+# odd = list(map(lambda x: x % 2 ==1, rank))
+# even = list(map(lambda x: x % 2 ==0, rank))
+# one_zero = ''.join(list(map(str, (map(int, odd)))))
+# if sum(odd) < sum(even)   or  (all(odd[::2]) and all(even[1::2])) or \
+#         (one_zero.count('00') > 1 or one_zero.count('11') > 1):
+#     print(*result)
+# else:
+#     try:
+#         print(*(one_zero.find('00')+2, one_zero.find('00')+3))
+#     except:
+#         print(*(one_zero.find('11')+2, one_zero.find('11')+3))
 
+'''тайный санта от 1 к 1 (уточнить детали непонятны выходные условия)'''
+
+# n = int(input())
+# rank = list(map(int, input().split()))
+# if (len(rank) - len(set(rank)) != 1) or (rank[0] != rank[-1]) or (rank[0] != rank[-2]) or (rank[1] != rank[-1]):
+#     print(*(-1, -1))
+
+'''экономия на обедах'''
+
+total, start = 0, 0
+lanches = []
+coupons = dict()
+result = 0
+
+for i in range(n := int(input())):
+    lanches.append( tmp := int(input()))
+    total += tmp
+k = total // 100
+
+for i in range(k):
+    coupons[i] = []
+    for j in lanches[start:]:
+        coupons[i].append(j)
+        start = lanches.index(j)+1
+        if sum(coupons[i]) > 99:
+            break
+coupons[len] = [0]
+for i in range(1,len(coupons)):
+    try:
+        to_del = max(list(coupons[i]))
+        print(list(coupons[i])[(coupons[i]).index(to_del)])
+        del coupons[i][(coupons[i]).index(to_del)]
+        while sum(coupons[i]) < 100:
+            coupons[i].append((coupons[i+1][0]))
+            print(coupons[i+1][0])
+            del coupons[i+1][0]
+    except Exception as e:
+        pass
+print(coupons.values())
