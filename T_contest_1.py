@@ -112,35 +112,140 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 # if (len(rank) - len(set(rank)) != 1) or (rank[0] != rank[-1]) or (rank[0] != rank[-2]) or (rank[1] != rank[-1]):
 #     print(*(-1, -1))
 
+
+'''грязное дело в переговорке ( задача с масштабом и поиском точки соприкосновения)'''
+
+x, y = map(int, input().split())
+
+rect = list(map(float, input().split()))
+
+x0, y0, x1, y1 = (rect[0],rect[1]), (rect[2],rect[3]),(rect[4],rect[5]),(rect[6],rect[7])
+
+scale =  (x / abs(x0[0] - x1[0]))
+
+if (x0[0]+ x1[0]) / 2 == x/2 and (y0[1]+ y1[1]) /2 == y / 2:
+    print(round(x/2, 4), round(y / 2, 4))
+elif x0[0]> x1[0] and x0[1] > x1[1]:
+    f, s, res = 0, rect[0], 0
+    for i in range(x):
+        if (f + i) == (s - i/scale) == (res + i):
+            res += i
+            break
+        elif  (s - i/scale) < (res + i):
+            f, s, res = (f + i-1), (s - (i-1)/scale), (res + i-1)
+            for j in range(1,10):
+                print(f, s, res)
+                if (f + 0.1*j) == (s - 0.1 * j / scale) == (res +  0.1*j):
+                    res += 0.1*j
+                    break
+                elif (s -  0.1*j / scale) > (res +  0.1*j):
+                    f, s, res = (f + 0.1*j - 0.1), (s -  0.1*j / scale - 0.1), (res +  0.1*j - 0.1)
+                    for k in range(10*(j-1), 100):
+                        print(f, s, res)
+                        if (f + 0.01 * k) == (s - 0.01 * k / scale) == (res + 0.01 * k):
+                            res += 0.01*k
+                            break
+                        elif (s - 0.01 * k / scale) > (res + 0.01 * k):
+                            f, s, res = (f + 0.01 * k - 0.01), (s - 0.01 * k / scale - 0.01), (res + 0.01 * k - 0.01)
+                            for h in range(10 * (k - 1), 1000):
+                                print(f, s, res)
+                                if (f + 0.001 * h) == (s - 0.001 * h / scale) == (res + 0.001 * h):
+                                    res += 0.001 * h
+                                    break
+                                elif (s - 0.001 * h / scale) > (res + 0.001 * h):
+                                    f, s, res = (f + 0.001 * h - 0.001), (s - 0.001 * h / scale - 0.001), (
+                                                res + 0.001 * h - 0.001)
+                                    for o in range(10 * (h - 1), 10000):
+                                        print(f, s, res)
+                                        if (f + 0.0001 * o) == (s - 0.0001 * o / scale) == (res + 0.0001 * o) \
+                                                or (s - 0.0001 * o / scale) > (res + 0.0001 * o):
+                                            res += 0.0001 * o
+                                            break
+print(f, s, res)
+
+
+# paper = (5.0000, 2.5000)
+#
+# end, that_is =  x0, (0,0)
+# if (x0[0]+ x1[0]) / 2 == x /2 and (y0[1]+ y1[1]) /2 == y / 2:
+#     print(*paper)
+# elif x0[0]> x1[0] and x0[1] > x1[1]:
+#     for i in range(1,10):
+#         end[0] -= i * 0.1
+#         that_is[0] += i * 0.1 * scale
+#         if end[0] == that_is[0]:
+#             break
+#         elif  end[0] < that_is[0]:
+#             end[0] += i * 0.1
+#             that_is[0] -= 0, i * scale
+#             for j in range(1,100):
+#                 end[0] -= 0, 0j
+#                 that_is[0] += 0, 0j * scale
+#                 if end[0] == that_is[0]:
+#                     break
+#                 elif end[0] < that_is[0]:
+#                     end[0] += 0, 0j
+#                     that_is[0] -= 0, 0j * scale
+#                     for k in range(1,1000):
+#                         end[0] -= 0, 00k
+#                         that_is[0] += 0, 00k * scale
+#                         if end[0] == that_is[0]:
+#                             break
+# print(that_is)
 '''экономия на обедах'''
 
-total, start = 0, 0
-lanches = []
-coupons = dict()
-result = 0
+# first try ===================
 
-for i in range(n := int(input())):
-    lanches.append( tmp := int(input()))
-    total += tmp
-k = total // 100
+# total, start = 0, 0
+# lanches = []
+# coupons = dict()
+# result = 0
+#
+# for i in range(n := int(input())):
+#     lanches.append( tmp := int(input()))
+#     total += tmp
+# k = total // 100
+#
+# for i in range(k):
+#     coupons[i] = []
+#     for j in lanches[start:]:
+#         coupons[i].append(j)
+#         start = lanches.index(j)+1
+#         if sum(coupons[i]) > 99:
+#             break
+# coupons[len] = [0]
+# total = 0
+# for i in range(1,len(coupons)):
+#
+#     try:
+#         to_del = max(list(coupons[i]))
+#         del coupons[i][(coupons[i]).index(to_del)]
+#         while sum(coupons[i]) < 100:
+#             coupons[i].append((coupons[i+1][0]))
+#             del coupons[i+1][0]
+#
+#     except Exception as e:
+#         pass
+# for i in coupons.values():
+#     total += sum(i)
+# print(total)
 
-for i in range(k):
-    coupons[i] = []
-    for j in lanches[start:]:
-        coupons[i].append(j)
-        start = lanches.index(j)+1
-        if sum(coupons[i]) > 99:
-            break
-coupons[len] = [0]
-for i in range(1,len(coupons)):
-    try:
-        to_del = max(list(coupons[i]))
-        print(list(coupons[i])[(coupons[i]).index(to_del)])
-        del coupons[i][(coupons[i]).index(to_del)]
-        while sum(coupons[i]) < 100:
-            coupons[i].append((coupons[i+1][0]))
-            print(coupons[i+1][0])
-            del coupons[i+1][0]
-    except Exception as e:
-        pass
-print(coupons.values())
+# second try ===================
+
+# total, start = 0, 0
+# lanches = []
+# for i in range(n := int(input())):
+#     lanches.append( tmp := int(input()))
+# max_coupons, del_max_price = 0, 0
+#
+# for _ in range(len(lanches)):
+#     if lanches:
+#         del_max_price += lanches[0]
+#         max_coupons += lanches[0]
+#         lanches.remove(lanches[0])
+#         if max_coupons> 100:
+#             max_coupons -= 100
+#             if lanches:
+#                 del lanches[lanches.index(max(lanches))]
+#
+# print(del_max_price)
