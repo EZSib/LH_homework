@@ -1,5 +1,8 @@
 import math
 from random import shuffle
+from decimal import Decimal as D
+from decimal import getcontext
+
 # print(len([i for i in list(range(100,1000)) if (int(str(i)[0]))+int(str(i)[1])+int(str(i)[2]) == i/19]))
 # print(8*math.sqrt(7))
 '''Вводится 4 целых положительных числа ABCD(1≤A,B,C,D≤100)
@@ -114,55 +117,63 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 
 
 '''грязное дело в переговорке ( задача с масштабом и поиском точки соприкосновения)'''
+# getcontext().prec = 5
+# x, y = map(int, input().split())
+# rect = list(map(float, input().split()))
+# x0, y0, x1, y1 = (rect[0], rect[1]), (rect[2], rect[3]), (rect[4], rect[5]), (rect[6], rect[7])
+# scale = D(x / abs(x0[0] - x1[0]))
+# d1, d2, d3, d4 = D(0.1), D(0.01), D(0.001), D(0.0001)
+#
+# start, res = (0, 0), x0
+# for i in range(max(x, y)):
+#     if res != x0:
+#         break
 
-x, y = map(int, input().split())
-
-rect = list(map(float, input().split()))
-
-x0, y0, x1, y1 = (rect[0],rect[1]), (rect[2],rect[3]),(rect[4],rect[5]),(rect[6],rect[7])
-
-scale =  (x / abs(x0[0] - x1[0]))
-
-if (x0[0]+ x1[0]) / 2 == x/2 and (y0[1]+ y1[1]) /2 == y / 2:
-    print(round(x/2, 4), round(y / 2, 4))
-elif x0[0]> x1[0] and x0[1] > x1[1]:
-    f, s, res = 0, rect[0], 0
-    for i in range(x):
-        if (f + i) == (s - i/scale) == (res + i):
-            res += i
-            break
-        elif  (s - i/scale) < (res + i):
-            f, s, res = (f + i-1), (s - (i-1)/scale), (res + i-1)
-            for j in range(1,10):
-                print(f, s, res)
-                if (f + 0.1*j) == (s - 0.1 * j / scale) == (res +  0.1*j):
-                    res += 0.1*j
-                    break
-                elif (s -  0.1*j / scale) > (res +  0.1*j):
-                    f, s, res = (f + 0.1*j - 0.1), (s -  0.1*j / scale - 0.1), (res +  0.1*j - 0.1)
-                    for k in range(10*(j-1), 100):
-                        print(f, s, res)
-                        if (f + 0.01 * k) == (s - 0.01 * k / scale) == (res + 0.01 * k):
-                            res += 0.01*k
-                            break
-                        elif (s - 0.01 * k / scale) > (res + 0.01 * k):
-                            f, s, res = (f + 0.01 * k - 0.01), (s - 0.01 * k / scale - 0.01), (res + 0.01 * k - 0.01)
-                            for h in range(10 * (k - 1), 1000):
-                                print(f, s, res)
-                                if (f + 0.001 * h) == (s - 0.001 * h / scale) == (res + 0.001 * h):
-                                    res += 0.001 * h
-                                    break
-                                elif (s - 0.001 * h / scale) > (res + 0.001 * h):
-                                    f, s, res = (f + 0.001 * h - 0.001), (s - 0.001 * h / scale - 0.001), (
-                                                res + 0.001 * h - 0.001)
-                                    for o in range(10 * (h - 1), 10000):
-                                        print(f, s, res)
-                                        if (f + 0.0001 * o) == (s - 0.0001 * o / scale) == (res + 0.0001 * o) \
-                                                or (s - 0.0001 * o / scale) > (res + 0.0001 * o):
-                                            res += 0.0001 * o
-                                            break
-print(f, s, res)
-
+# def paper(A, main_rect=D(0), paper_rect=D(0)):
+#     A = D(A)
+#
+#     # elif x0[0] > x1[0] and x0[1] > x1[1]:
+#     f, s, res = main_rect, A, paper_rect
+#     for i in range(x):
+#         if res != 0:
+#             break
+#         if (f + i) == (s - i / scale) == (res + i):
+#             res += i
+#             return res
+#         elif (s - i / scale) < (res + i):
+#             f, s, res = (f + i - 1), (s - (i - 1) / scale), (res + i - 1)
+#             for j in range(1, 10):
+#                 if (f + D(f'0.{j}')) == (s - D(f'0.{j}') / scale) == (res + D(f'0.{j}')):
+#                     res += D(f'0.{j}')
+#                     return res
+#                 elif (s - D(f'0.{j}') / scale) < (res + D(f'0.{j}')):
+#                     f, s, res = (f + D(f'0.{j}') - d1), (s - (D(f'0.{j}') - d1) / scale), (res + D(f'0.{j}') - d1)
+#                     for k in range(10 * (j - 1), 100):
+#                         if (f + D(f'0.0{k}')) == (s - D(f'0.0{k}') / scale) == (res + D(f'0.0{k}')):
+#                             res += D(f'0.0{k}')
+#                             return res
+#                         elif (s - D(f'0.0{k}') / scale) < (res + D(f'0.0{k}')):
+#                             f, s, res = (f + D(f'0.0{k}') - d2), (s - (D(f'0.0{k}') - d2) / scale), (
+#                                     res + D(f'0.0{k}') - d2)
+#                             for h in range(1, k * 10):
+#                                 if (f + D(f'0.00{h}')) == (s - D(f'0.00{h}') / scale) == (res + D(f'0.00{h}')):
+#                                     res += D(f'0.00{h}')
+#                                     return res
+#                                 elif (s - D(f'0.00{h}') / scale) < (res + D(f'0.00{h}')):
+#                                     f, s, res = (f + D(f'0.00{h}') - d3), (s - (D(f'0.00{h}') - d3) / scale), (
+#                                             res + D(f'0.00{h}') - d3)
+#                                     for o in range(1, h * 10):
+#                                         if ((f + D(f'0.000{o}')) == (s - D(f'0.000{o}') / scale) == (
+#                                                 res + D(f'0.000{o}'))) or (s - D(f'0.000{o}') / scale) < (
+#                                                 res + D(f'0.000{o}')):
+#                                             res += D(f'0.000{o}')
+#                                             return res
+#
+#
+# if (x0[0] + x1[0]) / 2 == x / 2 and (y0[1] + y1[1]) / 2 == y / 2:
+#     print(eval(f'{(x / 2, 4):.4f}'), eval(f'{(y / 2, 4):.4f})'))
+# else:
+#     print(eval(f'{float(paper(rect[0])):.4f}'), eval(f'{float(paper(rect[1])):.4f}'))
 
 # paper = (5.0000, 2.5000)
 #
@@ -249,3 +260,16 @@ print(f, s, res)
 #                 del lanches[lanches.index(max(lanches))]
 #
 # print(del_max_price)
+'''сколько сумм монет в кошельке'''
+from itertools import combinations_with_replacement
+N = int(input())
+coins =  list(map(int, input().split()))
+list_sum = []
+for i in range(1, len(coins)+1):
+    for j in range(N):
+        for k in combinations_with_replacement(coins, i):
+            if k not in list_sum and sum(k) <= N-1:
+                list_sum.append(k)
+print(list_sum)
+
+
