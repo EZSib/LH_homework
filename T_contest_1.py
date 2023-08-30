@@ -275,72 +275,96 @@ A,B,C,D(1≤A,B,C,D≤100) — стоимость тарифа Кости, ра�
 
 '''разрезать торт на 2 ровные части вертикально'''
 
+# N = int(input())
+# x, y = [], []
+# for i in range(1, N + 1):
+#     tmp = list(map(int, input().split()))
+#     x.append(tmp[0])
+#     y.append(tmp[1])
+#
+#
+# def sum_sides(x1, y1, x2, y2):
+#     print(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) ** 0.5)
+#     return ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) ** 0.5
+#
+#
+# if min(x) != x[0]:
+#     for _ in range(x.index(min(x))):
+#         x.append(x.pop(0))
+#         y.append(y.pop(0))
+#
+# perimetr = 0
+# for i in range(N - 1):
+#     perimetr += sum_sides(x[i], y[i], x[i + 1], y[i + 1])
+# perimetr += sum_sides(x[-1], y[-1], x[0], y[0])
+#
+# list_x, list_y = [], []
+# angle = 0
+#
+# left_side_x = [0, 1]
+#
+#
+# def k_angle(x1, y1, x2, y2):
+#     k = (y2 - y1) / (x2 - x1)
+#     b = y1 - k * x1
+#     return [(x, k * x + b) for x in range(x1, x2 + 1)]
+#
+#
+# try:
+#     list_left = k_angle(x[left_side_x[-1]], y[left_side_x[-1]], x[left_side_x[-1] + 1], y[left_side_x[-1] + 1])
+#     list_right = k_angle(x[left_side_x[0]], y[left_side_x[0]], x[left_side_x[0] - 1], y[left_side_x[0] - 1])
+# except ZeroDivisionError:
+#     left_side_x = [-1, 0]
+#     list_left = k_angle(x[left_side_x[-1]], y[left_side_x[-1]], x[left_side_x[-1] + 1], y[left_side_x[-1] + 1])
+#     list_right = k_angle(x[left_side_x[0]], y[left_side_x[0]], x[left_side_x[0] - 1], y[left_side_x[0] - 1])
+# n_rise = 0
+# half_perimetr = 0
+#
+# while half_perimetr < perimetr / 2:
+#     half_perimetr = 0
+#     del list_left[0]
+#     del list_right[0]
+#     if -1 in left_side_x:
+#         x[1], x[-1] = x[-1], x[1]
+#         y[1], y[-1] = y[-1], y[1]
+#         half_perimetr += sum_sides(x[0], y[0], x[-1], y[-1])
+#
+#         if len(left_side_x) > 1:
+#
+#             half_perimetr += sum_sides(x[1], y[1], list_left[0][0], list_left[0][1])
+#             half_perimetr += sum_sides(x[0], y[0], list_right[0][0], list_right[0][1])
+#
+#         else:
+#             half_perimetr += sum_sides(x[1], y[1], list_left[0][0], list_left[0][1])
+#             half_perimetr += sum_sides(x[0], y[0], list_right[0][0], list_right[0][1])
+#
+#     else:
+#         half_perimetr += sum_sides(x[0], y[0], x[1], y[1])
+#
+#         half_perimetr += sum_sides(x[1], y[1], list_left[0][0], list_left[0][1])
+#
+# print(list_right[0][1])
+
+'''тайный санта'''
 N = int(input())
-x, y = [], []
-for i in range(1, N + 1):
-    tmp = list(map(int, input().split()))
-    x.append(tmp[0])
-    y.append(tmp[1])
+
+list_sants = list(map(int, (input().split())))
+list_sants.insert(0,1)
+all = set(range(1, N+1))
+
+if set(list_sants) == all:
+    print(-1,-1)
+    exit()
+if list_sants[-1] != 1:
+    list_sants[-1] = 1
+    if len(list_sants) == len(all):
+        print(N, 1)
+    else: print(-1,-1)
+if list_sants.count(1) > 2 and list_sants[-1] == 1:
+    ind = list_sants[1:].index(1) +1
+    number = (all - set(list_sants))
+    if len(number) == 1 :
+        number = list(number)[0]
+        print(ind, number)
 
 
-def sum_sides(x1, y1, x2, y2):
-    print(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) ** 0.5)
-    return ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) ** 0.5
-
-
-if min(x) != x[0]:
-    for _ in range(x.index(min(x))):
-        x.append(x.pop(0))
-        y.append(y.pop(0))
-
-perimetr = 0
-for i in range(N - 1):
-    perimetr += sum_sides(x[i], y[i], x[i + 1], y[i + 1])
-perimetr += sum_sides(x[-1], y[-1], x[0], y[0])
-
-list_x, list_y = [], []
-angle = 0
-
-left_side_x = [0, 1]
-
-
-def k_angle(x1, y1, x2, y2):
-    k = (y2 - y1) / (x2 - x1)
-    b = y1 - k * x1
-    return [(x, k * x + b) for x in range(x1, x2 + 1)]
-
-
-try:
-    list_left = k_angle(x[left_side_x[-1]], y[left_side_x[-1]], x[left_side_x[-1] + 1], y[left_side_x[-1] + 1])
-    list_right = k_angle(x[left_side_x[0]], y[left_side_x[0]], x[left_side_x[0] - 1], y[left_side_x[0] - 1])
-except ZeroDivisionError:
-    left_side_x = [-1, 0]
-    list_left = k_angle(x[left_side_x[-1]], y[left_side_x[-1]], x[left_side_x[-1] + 1], y[left_side_x[-1] + 1])
-    list_right = k_angle(x[left_side_x[0]], y[left_side_x[0]], x[left_side_x[0] - 1], y[left_side_x[0] - 1])
-n_rise = 0
-half_perimetr = 0
-
-while half_perimetr < perimetr / 2:
-    half_perimetr = 0
-    del list_left[0]
-    del list_right[0]
-    if -1 in left_side_x:
-        x[1], x[-1] = x[-1], x[1]
-        y[1], y[-1] = y[-1], y[1]
-        half_perimetr += sum_sides(x[0], y[0], x[-1], y[-1])
-
-        if len(left_side_x) > 1:
-
-            half_perimetr += sum_sides(x[1], y[1], list_left[0][0], list_left[0][1])
-            half_perimetr += sum_sides(x[0], y[0], list_right[0][0], list_right[0][1])
-
-        else:
-            half_perimetr += sum_sides(x[1], y[1], list_left[0][0], list_left[0][1])
-            half_perimetr += sum_sides(x[0], y[0], list_right[0][0], list_right[0][1])
-
-    else:
-        half_perimetr += sum_sides(x[0], y[0], x[1], y[1])
-
-        half_perimetr += sum_sides(x[1], y[1], list_left[0][0], list_left[0][1])
-
-print(list_right[0][1])
