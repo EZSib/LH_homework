@@ -1,4 +1,4 @@
-# '''задача с магазином револьверов '''
+'''1.задача с магазином револьверов '''
 # n , money = map(int, input().split())
 # list_rev = list(map(int, input().split()))
 # list_rev_res = list(map(lambda x: x-money+10000000000 if x-money <= 0 else 0, list_rev))
@@ -6,7 +6,7 @@
 #     print(list_rev[list_rev_res.index(max(list_rev_res))])
 # else:
 #     print(0)
-'''задача с количеством слова в строке'''
+'''2.задача с количеством слова в строке'''
 # 'sheriff'
 # s = input()
 # cnt = 0
@@ -23,7 +23,7 @@
 #     cnt +=1
 # print(cnt)
 
-'''задача где надо отсортировать отрезок чисел, чтобы убедиться в равенстве с результирующим списком'''
+'''3.задача где надо отсортировать отрезок чисел, чтобы убедиться в равенстве с результирующим списком'''
 # n = int(input())
 # bob = input().replace(' ', '')
 # win = input().replace(' ', '')
@@ -47,7 +47,7 @@
 #     bob = bob[:start + 1] + ''.join(sorted(bob[start + 1: end])) + bob[end:]
 # print('YES' if bob == win else 'NO')
 
-'''как честный ковбой в банк ходил за наличкой (набрать сумму заданными номиналами(макс кол-во купюр 2))'''
+'''4.как честный ковбой в банк ходил за наличкой (набрать сумму заданными номиналами(макс кол-во купюр 2))'''
 # from itertools import *
 #
 # cash, nom_pcs = map(int, input().split())
@@ -75,7 +75,7 @@
 #
 # res(all_cash)
 
-'''дух разрушающий дороги но не трогающий территориальное устройство'''
+'''5.дух разрушающий дороги но не трогающий территориальное устройство'''
 
 # cities, roads_n = map(int, input().split())
 # states_n = cities - 1
@@ -98,45 +98,42 @@
 #         pass
 # print(min(list(map(lambda x: max(x[1:]) if len(x) > 2 else 100000000000, states.values()))) - 1)
 
-'''банды духов и их вопросы'''
-ghost, quest = map(int, input().split())
-
-bands = [str(i) for i in range(1,ghost+1)]
-
-print(bands)
-
-for _ in range(quest):
-    a = list(input().split())
-    cnt = 0
-    if a[0] == '1':
-        for i in bands[-1::-1]:
-            if cnt:
-                break
-            if a[1] in i:
-                for j in bands[-1::-1]:
-                    if cnt:
-                        break
-                    if a[2] in j:
-                        bands.append(i+j)
-                        if len(bands[-1]) == 2:
-                            bands.remove(a[1])
-                            bands.remove(a[2])
-                        else:
-                            to_remove = (k for k in (i,j) if len(k) == 1)
-                            print(*(o for o in (i,j) if len(o) == 1))
-                            bands.remove(*to_remove)
-                        cnt +=1
-        print(bands)
-    elif a[0] == '2':
-        flag = 'NO'
-        for i in bands:
-            if a[1]  in i:
-                if a[2] in i:
-                    flag = 'YES'
-                    break
-        print(flag)
-    elif a[0] == '3':
-        for i in bands[-1::-1]:
-            if a[1] in i:
-                print(len(i))
-                break
+'''6.банды духов и их вопросы'''
+# ghost, quest = map(int, input().split())
+#
+# bands = [str(i) for i in range(1,ghost+1)]
+#
+# for _ in range(quest):
+#     print(bands)
+#     a = list(input().split())
+#     cnt = 0
+#     if a[0] == '1':
+#         for i in bands[-1::-1]:
+#             if cnt:
+#                 break
+#             if a[1] in i:
+#                 for j in bands[-1::-1]:
+#                     if cnt:
+#                         break
+#                     if a[2] in j:
+#                         bands.append(i+j)
+#                         if len(bands[-1]) == 2:
+#                             bands.remove(a[1])
+#                             bands.remove(a[2])
+#                         else:
+#                             bands.remove(i)
+#                             bands.remove(j)
+#                         cnt +=1
+#     elif a[0] == '2':
+#         flag = 'NO'
+#         for i in bands:
+#             if a[1] in i:
+#                 if a[2] in i:
+#                     flag = 'YES'
+#                     break
+#         print(flag)
+#     elif a[0] == '3':
+#         for i in bands[-1::-1]:
+#             if a[1] in i:
+#                 print(len(i))
+#                 break
