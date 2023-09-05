@@ -99,41 +99,41 @@
 # print(min(list(map(lambda x: max(x[1:]) if len(x) > 2 else 100000000000, states.values()))) - 1)
 
 '''6.банды духов и их вопросы'''
-# ghost, quest = map(int, input().split())
-#
-# bands = [str(i) for i in range(1,ghost+1)]
-#
-# for _ in range(quest):
-#     print(bands)
-#     a = list(input().split())
-#     cnt = 0
-#     if a[0] == '1':
-#         for i in bands[-1::-1]:
-#             if cnt:
-#                 break
-#             if a[1] in i:
-#                 for j in bands[-1::-1]:
-#                     if cnt:
-#                         break
-#                     if a[2] in j:
-#                         bands.append(i+j)
-#                         if len(bands[-1]) == 2:
-#                             bands.remove(a[1])
-#                             bands.remove(a[2])
-#                         else:
-#                             bands.remove(i)
-#                             bands.remove(j)
-#                         cnt +=1
-#     elif a[0] == '2':
-#         flag = 'NO'
-#         for i in bands:
-#             if a[1] in i:
-#                 if a[2] in i:
-#                     flag = 'YES'
-#                     break
-#         print(flag)
-#     elif a[0] == '3':
-#         for i in bands[-1::-1]:
-#             if a[1] in i:
-#                 print(len(i))
-#                 break
+ghost, quest = map(int, input().split())
+
+bands = [str(i) for i in range(1,ghost+1)]
+
+for _ in range(quest):
+    print(bands)
+    a = list(input().split())
+    cnt = 0
+    if a[0] == '1':
+        for i in bands[-1::-1]:
+            if cnt:
+                break
+            if a[1] in i:
+                for j in bands[-1::-1]:
+                    if cnt:
+                        break
+                    if a[2] in j:
+                        bands.append(i+j)
+                        if len(bands[-1]) == 2:
+                            bands.remove(a[1])
+                            bands.remove(a[2])
+                        else:
+                            bands.remove(i)
+                            bands.remove(j)
+                        cnt +=1
+    elif a[0] == '2':
+        flag = 'NO'
+        for i in bands:
+            if a[1] in i:
+                if a[2] in i:
+                    flag = 'YES'
+                    break
+        print(flag)
+    elif a[0] == '3':
+        for i in bands[-1::-1]:
+            if a[1] in i:
+                print(len(i))
+                break

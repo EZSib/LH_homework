@@ -6,7 +6,7 @@ import time
 def sql3_insert(func):
     def action():
         func()
-        conn = sqlite3.connect('results.db')
+        conn = sqlite3.connect('../results.db')
         cur = conn.cursor()
 
         cur.execute('''CREATE TABLE IF NOT EXISTS list_results (
